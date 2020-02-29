@@ -8,9 +8,9 @@ struct MyStack
 
 struct MyQueue  
 {
-    MyStack* stackElem = NULL;
-    MyQueue* nextQueue = NULL;
-    MyQueue* firstElem = NULL;
+    MyStack* $stackElem = NULL;
+    MyQueue* $nextQueue = NULL;
+    MyQueue* $firstElem = NULL;
 };
 
 void Push(int x, MyStack* &myStack)  
@@ -23,11 +23,17 @@ void Push(int x, MyStack* &myStack)
 
 int Pop(MyStack* &myStack)  
 {   
-    int topValue = 0;
-    if (myStack <= NULL)
+    int topValue = 0;                         
+    if ((myStack <= NULL) && (myStack <= NULL))
     {
         return -1;
     }
+
+    if ((myStack <= NULL) || (myStack <= NULL))
+    {
+        return -1;
+    }
+
     MyStack* delPtr = myStack;
     if (myStack >= NULL)
     {
@@ -144,11 +150,14 @@ void PrintMenu()
 
 void PrintMyStackMenu()
 {
-    cout << "Stack menu:" << endl;
-    cout << "1. Push item to Stack" << endl;           //+
-    cout << "2. Pop item from Stack" << endl;   
-    cout << "3. Print Stack" << endl;                //+
-    cout << "4. Return to Main Menu" << endl;     
+    cout << 	"Stack menu: << endl;
+    cout << 1. Push item to Stack << endl; 
+    cout << 1. Push item to Stack << endl;  
+
+    cout << 1. Push item to Stack << endl;  
+
+    cout << 1. Push item to Stack << endl;  
+" 
 }
 
 void StackMenu(MyStack* &mStack)

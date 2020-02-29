@@ -30,9 +30,18 @@ enum state {
 	SMALLER_EQUAL,
 	MORE_EQUAL,
 	NOT_EQUAL,
-	LOGICAL_NEGATION, 
+	LOGICAL_NEGATION,
+	LOGICAL_AND,
+	LOGICAL_OR,
 	ONE_LINE_COMMENT,
-	MULTILINE_COMMENT
+	MULTILINE_COMMENT,
+	STRING,
+	IDENTIFICATOR,
+	ERROR,
+	IF,
+	ELSE,
+	WHILE,
+	FOR
 };
 
 map<state, const char* > info = {
@@ -41,15 +50,16 @@ map<state, const char* > info = {
 	//{DOUBLE, "DOUBLE"},
 	//{VOID, "VOID"},
 	//{VAR, "VAR"},
-	//{STRING, "STRING"},
+	//{STRING_TYPE, "STRING_TYPE"},
 	//{BOOL, "BOOL"},
 	//{CHAR, "CHAR"},
-	//{IF, "IF"},
-	//{ELSE, "ELSE"},
-	//{WHILE, "WHILE"},
-	//{FOR, "FOR"},
+	{IF, "IF"},
+	{ELSE, "ELSE"},
+	{WHILE, "WHILE"},
+	{FOR, "FOR"},
 	//{READ, "READ"},
 	//{WRITE, "WRITE"},
+	{STRING, "STRING"},
 	{PLUS, "PLUS"},
 	{MINUS, "MINUS"},
 	{MULTIPLICATION, "MULTIPLICATION"},
@@ -74,8 +84,11 @@ map<state, const char* > info = {
 	{RIGHT_PARENTHESIS, "RIGHT_PARENTHESIS"},
 	{ONE_LINE_COMMENT, "ONE_LINE_COMMENT"},
 	{MULTILINE_COMMENT, "MULTILINE_COMMENT"},
-	//{ERROR, "ERROR"},
-	{LOGICAL_NEGATION, "LOGICAL_NEGATION"}
+	{ERROR, "ERROR"},
+	{LOGICAL_NEGATION, "LOGICAL_NEGATION"},
+	{LOGICAL_AND, "LOGICAL_AND"},
+	{LOGICAL_OR, "LOGICAL_OR"},
+	{IDENTIFICATOR, "IDENTIFICATOR"}
 };
 
 bool openFile(ifstream& file, string fileName)
@@ -87,6 +100,13 @@ bool openFile(ifstream& file, string fileName)
 	{
 		return false;
 	}
+}
+
+bool checkIdent(char ch)
+{
+	if (isdigit(ch) || isalpha(ch))
+		return true;
+	return false;
 }
 
 int main()
@@ -110,166 +130,239 @@ int main()
 					nextCh = str[i + 1];
 				else
 					nextCh = ch;
-				switch (ch)
+
+				if (isalpha(ch))
 				{
-				case '+':
-					result = '+';
-					currState = PLUS;
-					break;
-
-				case '-':
-					result = '-';
-					currState = MINUS;
-					break;
-
-				case '*':
-					result = '*';
-					currState = MULTIPLICATION;
-					break;
-
-				case '/':
-					result = '/';
-					currState = DIVISION;
-					break;
-
-				case '^':
-					result = '^';
-					currState = EXP;
-					break;
-
-				case '.':
-					result = '.';
-					currState = DOT;
-					break;
-
-				case ',':
-					result = ',';
-					currState = COMMA;
-					break;
-
-				case ':':
-					result = ':';
-					currState = COLON;
-					break;
-
-				case ';':
-					result = ';';
-					currState = SEMI_COLON;
-					break;
-
-				case '=':
-					if (nextCh == '=')
-					{
-						result = "==";
-						currState = COMPARISON;
-						i++;
-					}
-					else
-					{
-						result = '=';
-						currState = EQUAL;
-					}
-					break;
-
-				case '<':
-					if (nextCh == '=')
-					{
-						result = "<=";
-						currState = SMALLER_EQUAL;
-						i++;
-					}
-					else
-					{
-						result = '<';
-						currState = SMALLER;
-					}
-					break;
-
-				case '>':
-					if (nextCh == '=')
-					{
-						result = ">=";
-						currState = MORE_EQUAL;
-						i++;
-					}
-					else
-					{
-						result = '>';
-						currState = MORE;
-					}
-					break;
-	
-				case '{':
-					result = '{';
-					currState = LEFT_CURLY_BRACE;
-					break;
-
-				case '}':
-					result = '}';
-					currState = RIGHT_CURLY_BRACE;
-					break;
-
-				case '[':
-					result = '[';
-					currState = LEFT_SQUARE_BRACKET;
-					break;
-
-				case ']':
-					result = ']';
-					currState = RIGHT_SQUARE_BRACKET;
-					break;
-
-				case '(':
-					result = '(';
-					currState = LEFT_PARENTHESIS;
-					break;
-
-				case ')':
-					result = ')';
-					currState = RIGHT_PARENTHESIS;
-					break;
-
-				case '!':
-					if (nextCh == '=')
-					{
-						result = "!=";
-						currState = NOT_EQUAL;
-						i++;
-					}
-					else
-					{
-						result = "!";			
-						currState = LOGICAL_NEGATION;						
-					}
-					break;
-
-				case '#':
-					getline(fileForWork, str);
-					numLine++;
-					i = 0;
-					result = '#';
-					currState = ONE_LINE_COMMENT;
-					break;
-
-				case '%':
-					int numLineOut;
-					numLineOut = numLine;
-					int position;
-					position = i;
-					i++;
-					ch = str[i];
+					result = "";
 					for (auto j = i; j < str.size(); j++)
 					{
-						ch = str[j];
 						i = j;
-						if (ch == '%')
+						ch = str[i];
+						if (!checkIdent(ch))
 							break;
+						result += ch;
 					}
-					while (ch != '%')
-					{	
+					cout << result << endl;
+					if (result == "if")
+						currState = IF;
+					if (result == "else")
+						currState = ELSE;
+					if (result == "while")
+						currState = WHILE;
+					if (result == "for")
+						currState = FOR;
+				}
+
+				else
+				switch (ch)
+				{
+					case '+':
+					{
+						result = '+';
+						currState = PLUS;
+						break;
+					}
+
+					case '-':
+					{
+						result = '-';
+						currState = MINUS;
+						break;
+					}
+
+					case '*':
+					{
+						result = '*';
+						currState = MULTIPLICATION;
+						break;
+					}
+
+					case '/':
+					{
+						result = '/';
+						currState = DIVISION;
+						break;
+					}
+
+					case '^':
+					{
+						result = '^';
+						currState = EXP;
+						break;
+					}
+
+					case '.':
+					{
+						result = '.';
+						currState = DOT;
+						break;
+					}
+
+					case ',':
+					{
+						result = ',';
+						currState = COMMA;
+						break;
+					}
+
+					case ':':
+					{
+						result = ':';
+						currState = COLON;
+						break;
+					}
+
+					case ';':
+					{
+						result = ';';
+						currState = SEMI_COLON;
+						break;
+					}
+
+					case '=':
+					{
+						if (nextCh == '=')
+						{
+							result = "==";
+							currState = COMPARISON;
+							i++;
+						}
+						else
+						{
+							result = '=';
+							currState = EQUAL;
+						}
+						break;
+					}
+
+					case '<':
+					{
+						if (nextCh == '=')
+						{
+							result = "<=";
+							currState = SMALLER_EQUAL;
+							i++;
+						}
+						else
+						{
+							result = '<';
+							currState = SMALLER;
+						}
+						break;
+					}
+
+					case '>':
+					{
+						if (nextCh == '=')
+						{
+							result = ">=";
+							currState = MORE_EQUAL;
+							i++;
+						}
+						else
+						{
+							result = '>';
+							currState = MORE;
+						}
+						break;
+					}
+
+					case '{':
+					{
+						result = '{';
+						currState = LEFT_CURLY_BRACE;
+						break;
+					}
+
+					case '}':
+					{
+						result = '}';
+						currState = RIGHT_CURLY_BRACE;
+						break;
+					}
+
+					case '[':
+					{
+						result = '[';
+						currState = LEFT_SQUARE_BRACKET;
+						break;
+					}
+
+					case ']':
+					{
+						result = ']';
+						currState = RIGHT_SQUARE_BRACKET;
+						break;
+					}
+
+					case '(':
+					{
+						result = '(';
+						currState = LEFT_PARENTHESIS;
+						break;
+					}
+
+					case ')':
+					{
+						result = ')';
+						currState = RIGHT_PARENTHESIS;
+						break;
+					}
+
+					case '!':
+					{
+						if (nextCh == '=')
+						{
+							result = "!=";
+							currState = NOT_EQUAL;
+							i++;
+						}
+						else
+						{
+							result = "!";
+							currState = LOGICAL_NEGATION;
+						}
+						break;
+					}
+
+					case '&':
+					{
+						if (nextCh == '&')
+						{
+							result = "&&";
+							currState = LOGICAL_AND;
+							i++;
+						}
+						break;
+					}
+
+					case '|':
+					{
+						if (nextCh == '|')
+						{
+							result = "||";
+							currState = LOGICAL_OR;
+							i++;
+						}
+						break;
+					}
+
+					case '#':
+					{
 						getline(fileForWork, str);
 						numLine++;
 						i = 0;
+						result = '#';
+						currState = ONE_LINE_COMMENT;
+						break;
+					}
+
+					case '%':
+					{
+						int numLineOut = numLine;
+						int position = i;
+						i++;
+						ch = str[i];
 						for (auto j = i; j < str.size(); j++)
 						{
 							ch = str[j];
@@ -277,23 +370,98 @@ int main()
 							if (ch == '%')
 								break;
 						}
+						while (ch != '%')
+						{
+							getline(fileForWork, str);
+							numLine++;
+							i = 0;
+							for (auto j = i; j < str.size(); j++)
+							{
+								ch = str[j];
+								i = j;
+								if (ch == '%')
+									break;
+							}
+						}
+						i++;
+						result = "%some text%";
+						currState = MULTILINE_COMMENT;
+						cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+						result = "";
+						break;
 					}
-					i++;
-					result = "%some text%";
-					currState = MULTILINE_COMMENT;
-					cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") "<< result << " " << info.at(currState) << endl;
 
-					break;
+					case '"':
+					{
+						int numLineOut = numLine;
+						int position = i;
+						i++;
+						ch = str[i];
+						result = '"';
+						for (auto j = i; j < str.size(); j++)
+						{
+							ch = str[j];
+							result += ch;
+							i = j;
+							if (ch == '"')
+								break;
+						}
+						while (ch != '"')
+						{
+							result += "\n";
+							getline(fileForWork, str);
+							numLine++;
+							i = 0;
+							for (auto j = i; j < str.size(); j++)
+							{
+								ch = str[j];
+								result += ch;
+								i = j;
+								if (ch == '"')
+									break;
+							}
+						}
+						i++;
+						currState = STRING;
+						cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+						break;
+					}
 
-				default:
-					currState = START;
+					case '$':
+					{
+						i++;
+						int position = i;
+						result = "$";
+						for (auto j = i; j < str.size(); j++)
+						{
+							ch = str[j];
+							i = j;
+							if (!checkIdent(ch))
+								break;
+							result += ch;
+						}
+						if (result.size() < 256)
+						{
+							currState = IDENTIFICATOR;
+							cout << "(" << numLine << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+						}
+						else
+							currState = ERROR;
+						break;
+					}
+
+					default:
+						
+
+						currState = START;
+										
 					break;
 				}
-
+								
 				i++;
 
-				if ((currState != START) && (currState != MULTILINE_COMMENT))
-					cout << "(" << numLine << "," << i << ") " << result << " " << info.at(currState) << endl;
+				if ((currState != START) && (currState != MULTILINE_COMMENT) && (currState != STRING) && (currState != IDENTIFICATOR))
+					cout << "(" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
 			}
 		}
 	fileForWork.close();
