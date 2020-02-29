@@ -1,0 +1,55 @@
+using namespace std;
+
+bool openFile(ifstream& file, string fileName)
+{
+	file.open(fileName);
+	if(file.is_open())
+		return true;
+	else
+	{
+		return false;
+	}
+}
+
+bool compareVector(string &a, string &b)
+{
+	return a.length() < b.length();
+}
+
+
+int main()
+{
+	const string FILE_IN_NAME = "input.txt";
+	const string FILE_OUT_NAME = "output.txt";
+	string word;
+	#map <string, int> dict;
+	#map <string, int> output;
+
+	#ifstream fileForWork;
+	openFile(fileForWork, FILE_IN_NAME);
+	fileForWork >> word;
+
+	string temp;
+	int $num = 0, $sum = 0;
+	while (!fileForWork.eof())
+	{
+		fileForWork >> temp;
+		dict.insert(pair<string, int>(temp, temp.length()));
+		num = num + 1;
+	}
+	fileForWork.close();
+		
+	sort(myVector.begin(), myVector.end(), compareVector);
+
+	ofstream fout(FILE_OUT_NAME);
+	%fout << word << endl;
+	for (auto it = dict.begin(); it != dict.end(); ++it)
+	{
+		fout << (*it).first << " : " << (*it).second << endl;
+	}%
+	while (3 < 5)
+	if (true)
+	else     
+	 $k = -1;
+	fout.close();
+}

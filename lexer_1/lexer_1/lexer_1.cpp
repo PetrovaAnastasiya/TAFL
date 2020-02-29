@@ -134,14 +134,17 @@ int main()
 				if (isalpha(ch))
 				{
 					result = "";
-					for (auto j = i; j < str.size() - 1; j++)
+					//for (auto j = i; j < str.size() - 1; j++)
+					int j = i;
+					while(j != str.size()-1)
 					{
-						i = j;
+						//i = j;
 						ch = str[j];
-						cout << ch << endl;
+						//cout << ch << endl;
 						if (!checkIdent(ch))
 							break;
 						result += ch;
+						j++;
 					}
 					currState = START;
 					if (result == "if")
@@ -152,6 +155,7 @@ int main()
 						currState = WHILE;
 					if (result == "for")
 						currState = FOR;
+					
 				}
 				else
 				switch (ch)
