@@ -142,7 +142,7 @@ int main()
 							break;
 						result += ch;
 					}
-					cout << result << endl;
+					//cout << result << endl;
 					if (result == "if")
 						currState = IF;
 					if (result == "else")
