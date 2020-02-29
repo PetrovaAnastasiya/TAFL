@@ -134,15 +134,16 @@ int main()
 				if (isalpha(ch))
 				{
 					result = "";
-					for (auto j = i; j < str.size(); j++)
+					for (auto j = i; j < str.size() - 1; j++)
 					{
 						i = j;
-						ch = str[i];
+						ch = str[j];
+						cout << ch << endl;
 						if (!checkIdent(ch))
 							break;
 						result += ch;
 					}
-					//cout << result << endl;
+					currState = START;
 					if (result == "if")
 						currState = IF;
 					if (result == "else")
@@ -152,7 +153,6 @@ int main()
 					if (result == "for")
 						currState = FOR;
 				}
-
 				else
 				switch (ch)
 				{
@@ -451,13 +451,10 @@ int main()
 					}
 
 					default:
-						
-
 						currState = START;
-										
-					break;
+							break;
 				}
-								
+							
 				i++;
 
 				if ((currState != START) && (currState != MULTILINE_COMMENT) && (currState != STRING) && (currState != IDENTIFICATOR))
