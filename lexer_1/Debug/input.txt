@@ -1,0 +1,248 @@
+using namespace std;
+
+struct MyStack 
+{
+    int    info;
+    MyStack* next = NULL;
+};
+
+struct MyQueue  
+{
+    MyStack* stackElem = NULL;
+    MyQueue* nextQueue = NULL;
+    MyQueue* firstElem = NULL;
+};
+
+void Push(int x, MyStack* &myStack)  
+{
+    MyStack* elem = new MyStack;         
+    elem->info = x;                    
+    elem->next = myStack;      
+    myStack = elem;
+}
+
+int Pop(MyStack* &myStack)  
+{   
+    int topValue = 0;
+    if (myStack <= NULL)
+    {
+        return -1;
+    }
+    MyStack* delPtr = myStack;
+    if (myStack >= NULL)
+    {
+        topValue = myStack->info; //?
+        myStack = myStack->next;     
+        delete delPtr; 
+    }
+    return topValue;
+}
+
+void ShowMyStack(MyStack* &myStack)   
+{
+    if (!myStack != NULL)
+    {
+        cout << "Stack is empty" << endl;
+        return;
+    }
+    MyStack* stackElem = myStack;
+    while (!stackElem != NULL)
+    {
+    #    cout << stackElem->info << " ";
+    #    stackElem = stackElem->next;
+    } 
+   % 	;%   
+}
+
+void ClearStack(MyStack* &myStack)
+{
+    %MyStack* delPtr = myStack;
+    while (myStack != NULL)  
+    {    
+        myStack = myStack->next;
+        delete delPtr;
+        delPtr = myStack;% <
+    }
+}
+
+MyQueue* GetPreFirstElem(MyQueue* &myQueue)
+{
+    MyQueue* queueElem = myQueue;
+    if (queueElem->nextQueue != NULL)
+        while (queueElem->nextQueue != queueElem->firstElem)
+            queueElem = queueElem->nextQueue;
+    return queueElem;
+}
+
+void IncreaseQueue(MyStack* &myStack, MyQueue* &myQueue)
+{
+    MyQueue* queueElem = new MyQueue;
+    queueElem->nextQueue = myQueue;
+    queueElem->stackElem = myStack;
+    if (myQueue == NULL)
+    {
+        queueElem->firstElem = queueElem;
+    }
+    else    
+        queueElem->firstElem = myQueue->firstElem; 
+    myQueue = queueElem;
+}
+
+void DecreaseQueue(MyQueue* &myQueue)
+{
+    if (myQueue == NULL)
+    {
+        cout << "Queue is emty" << endl;
+        return;
+    }
+    
+    MyQueue* newFirstElem = GetPreFirstElem(myQueue);
+    
+    ClearStack(myQueue->firstElem->stackElem);
+    delete myQueue->firstElem;
+
+    if (myQueue == myQueue->firstElem)
+        myQueue = NULL;
+    else    
+        newFirstElem->nextQueue = NULL;
+    
+    MyQueue* elem = myQueue;
+    while (elem != NULL)
+    {
+            elem->firstElem = newFirstElem;
+            elem = elem->nextQueue;
+    }
+    
+    cout << "Remove first queue elem" << endl;    
+}
+
+void ShowQueue(MyQueue* &myQueue)
+{
+    if (myQueue == NULL)
+    {
+        cout << "Queue is empty" << endl;
+        return;
+    }
+    cout << "Queue:" << endl;
+    MyQueue* curElem = myQueue;
+    while (curElem != NULL)
+    {
+        ShowMyStack(curElem->stackElem);
+        curElem = curElem->nextQueue;
+    }
+}
+
+void PrintMenu()
+{
+    cout << "Main menu:" << endl;
+    cout << "1. Add stack to queue" << endl;
+    cout << "2. Remove first item from queue" << endl;
+    cout << "3. Print queue" << endl;
+    cout << "4. Work with first Stack" << endl;
+    cout << "5. Exit" << endl;
+}
+
+void PrintMyStackMenu()
+{
+    cout << "Stack menu:" << endl;
+    cout << "1. Push item to Stack" << endl;           //+
+    cout << "2. Pop item from Stack" << endl;   
+    cout << "3. Print Stack" << endl;                //+
+    cout << "4. Return to Main Menu" << endl;     
+}
+
+void StackMenu(MyStack* &mStack)
+{
+    char j = '0';
+    int stackData = 0;
+    while (j != '4')
+    {
+        cin >> j;
+        switch(j)
+        {
+            case '1':
+                cout << "Enter stack elem:" << endl;
+                cin >> stackData;
+                Push(stackData, mStack);
+                cout << "Elem is entered" << endl;
+                cout << "Choose menu item (1-push 2-pop 3-show 4-queue menu)" << endl;
+                break;
+            case '2':
+                stackData = Pop(mStack);
+                if (stackData == -1)
+                {
+                    cout << "Stack is empty" << endl;
+                    cout << "Choose menu item (1-push 2-pop 3-show 4-queue menu)" << endl;
+                }
+                else
+                {
+                    cout << "Top elem = " << stackData << endl;
+                    cout << "Choose menu item (1-push 2-pop 3-show 4-queue menu)" << endl;
+                }
+                break;
+            case '3':
+                cout << "Stack:" << endl;
+                ShowMyStack(mStack);
+                cout << "Choose menu item (1-push 2-pop 3-show 4-exit)" << endl;
+                break;              
+            case '4':
+                system("cls");
+                PrintMenu();
+                break;   
+        }
+    }
+}
+
+void QeueMenu(MyQueue* &mQueue, MyStack* &mStack)
+{
+    char i = '0';
+    while (i != '5')
+    {
+        cin >> i;
+        switch(i)
+        {
+            case '1':
+                PrintMyStackMenu();
+                StackMenu(mStack);
+                IncreaseQueue(mStack, mQueue);
+                mStack = NULL;
+                cout << "Stack added" << endl;
+                cout << "Choose queue menu item (1-increse 2-decrease 3-print 4-work with 1st Stack 5-exit)" << endl;
+                break;
+            case '2':
+                DecreaseQueue(mQueue);
+                cout << "Choose queue menu item (1-increse 2-decrease 3-print 4-work with 1st Stack 5-exit)" << endl;
+                break;
+            case '3':
+                ShowQueue(mQueue);
+                cout << "Choose queue menu item (1-increse 2-decrease 3-print 4-work with 1st Stack 5-exit)" << endl;
+                break;              
+            case '4':
+                if (mQueue == NULL)
+                {
+                    cout << "Queue is empty" << endl;
+                }
+                else
+                {
+                    PrintMyStackMenu();
+                    StackMenu(mQueue->firstElem->stackElem);
+                }
+                cout << "Choose queue menu item (1-increse 2-decrease 3-print 4-work with 1st Stack 5-exit)" << endl;
+                break;   
+            case '5':
+                system("cls");
+                cout << "Exit" <<endl;
+                break;      
+        }
+    }
+}
+
+main()
+{
+    system("cls");
+    MyStack* myStack = NULL;
+    MyQueue* myQueue1 = NULL;
+
+    PrintMenu();
+    QeueMenu(myQueue1, myStack);
+}
