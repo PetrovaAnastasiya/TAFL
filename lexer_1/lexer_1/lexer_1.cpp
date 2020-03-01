@@ -422,8 +422,10 @@ int main()
 						}
 						i++;
 						if (currState == MULTILINE_COMMENT)
+						{
 							result = "%some text%";
-						cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+							cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+						}
 						break;
 					}
 
@@ -457,7 +459,6 @@ int main()
 									break;
 							}
 						}
-						i++;
 						currState = STRING;
 						cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
 						break;
@@ -476,7 +477,7 @@ int main()
 								break;
 							result += ch;
 						}
-						if (result.size() < 256)
+						if (result.size() < 257)
 						{
 							currState = IDENTIFICATOR;
 							cout << "(" << numLine << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
@@ -484,7 +485,6 @@ int main()
 						else
 							currState = ERROR;
 						break;
-						i++;
 					}
 
 					default:
@@ -496,7 +496,8 @@ int main()
 
 				if ((currState != START) && (currState != MULTILINE_COMMENT) && (currState != STRING) && (currState != IDENTIFICATOR) && (currState != ERROR))
 					cout << "(" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
-					
+				if (currState == ERROR)
+					cout << "(" << numLine << "," << i << ") " << info.at(currState) << " " << endl;
 			}
 		}
 	fileForWork.close();
