@@ -50,7 +50,8 @@ enum state {
 	BOOL, 
 	CHAR,
 	READ,
-	WRITE
+	WRITE,
+	DIGIT
 };
 
 map<state, const char* > info = {
@@ -97,7 +98,8 @@ map<state, const char* > info = {
 	{LOGICAL_NEGATION, "LOGICAL_NEGATION"},
 	{LOGICAL_AND, "LOGICAL_AND"},
 	{LOGICAL_OR, "LOGICAL_OR"},
-	{IDENTIFICATOR, "IDENTIFICATOR"}
+	{IDENTIFICATOR, "IDENTIFICATOR"},
+	{DIGIT, "DIGIT"}
 };
 
 bool openFile(ifstream& file, string fileName)
@@ -142,7 +144,7 @@ int main()
 
 				if (isalpha(ch))
 				{
-					result = "";
+					//result = "";
 					int j = i;
 					while(j != str.size())
 					{
@@ -183,6 +185,30 @@ int main()
 				else
 				switch (ch)
 				{
+					case '$':
+					{
+						i++;
+						int position = i;
+						result = "$";
+						int j = i;
+						
+						while (j != str.size())
+						{
+							ch = str[j];
+							j++;
+							if (!checkIdent(ch))
+								break;
+							result += ch;
+						}
+						if (result.size() < 257)
+						{
+							currState = IDENTIFICATOR;
+							cout << "(" << numLine << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+						}
+						else 
+							currState = ERROR;
+						break;
+					}
 					case '+':
 					{
 						result = '+';
@@ -463,30 +489,7 @@ int main()
 						cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
 						break;
 					}
-
-					case '$':
-					{
-						i++;
-						int position = i;
-						result = "$";
-						for (auto j = i; j < str.size(); j++)
-						{
-							ch = str[j];
-							i = j;
-							if (!checkIdent(ch))
-								break;
-							result += ch;
-						}
-						if (result.size() < 257)
-						{
-							currState = IDENTIFICATOR;
-							cout << "(" << numLine << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
-						}
-						else
-							currState = ERROR;
-						break;
-					}
-
+				
 					default:
 						currState = START;
 						break;
