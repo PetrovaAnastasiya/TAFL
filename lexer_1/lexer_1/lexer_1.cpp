@@ -41,24 +41,33 @@ enum state {
 	IF,
 	ELSE,
 	WHILE,
-	FOR
+	FOR,
+	INT,
+	DOUBLE,
+	VOID, 
+	VAR, 
+	STRING_TYPE, 
+	BOOL, 
+	CHAR,
+	READ,
+	WRITE
 };
 
 map<state, const char* > info = {
 	{START, "START"},
-	//{INT, "INT"},
-	//{DOUBLE, "DOUBLE"},
-	//{VOID, "VOID"},
-	//{VAR, "VAR"},
-	//{STRING_TYPE, "STRING_TYPE"},
-	//{BOOL, "BOOL"},
-	//{CHAR, "CHAR"},
+	{INT, "INT"},
+	{DOUBLE, "DOUBLE"},
+	{VOID, "VOID"},
+	{VAR, "VAR"},
+	{STRING_TYPE, "STRING_TYPE"},
+	{BOOL, "BOOL"},
+	{CHAR, "CHAR"},
 	{IF, "IF"},
 	{ELSE, "ELSE"},
 	{WHILE, "WHILE"},
 	{FOR, "FOR"},
-	//{READ, "READ"},
-	//{WRITE, "WRITE"},
+	{READ, "READ"},
+	{WRITE, "WRITE"},
 	{STRING, "STRING"},
 	{PLUS, "PLUS"},
 	{MINUS, "MINUS"},
@@ -134,14 +143,11 @@ int main()
 				if (isalpha(ch))
 				{
 					result = "";
-					//for (auto j = i; j < str.size() - 1; j++)
 					int j = i;
-					while(j != str.size()-1)
+					while(j != str.size())
 					{
-						//i = j;
 						ch = str[j];
-						//cout << ch << endl;
-						if (!checkIdent(ch))
+						if (!isalpha(ch))
 							break;
 						result += ch;
 						j++;
@@ -155,7 +161,24 @@ int main()
 						currState = WHILE;
 					if (result == "for")
 						currState = FOR;
-					
+					if (result == "int")
+						currState = INT;
+					if (result == "double")
+						currState = DOUBLE;
+					if (result == "void")
+						currState = VOID;
+					if (result == "var")
+						currState = VAR;
+					if (result == "string")
+						currState = STRING_TYPE;
+					if (result == "bool")
+						currState = BOOL;
+					if (result == "char")
+						currState = CHAR;
+					if (result == "read")
+						currState = READ;
+					if (result == "write")
+						currState = WRITE;
 				}
 				else
 				switch (ch)
@@ -363,16 +386,21 @@ int main()
 
 					case '%':
 					{
+						currState = ERROR;
 						int numLineOut = numLine;
-						int position = i;
 						i++;
+						int position = i;
+
 						ch = str[i];
 						for (auto j = i; j < str.size(); j++)
 						{
 							ch = str[j];
 							i = j;
 							if (ch == '%')
+							{
+								currState = MULTILINE_COMMENT;
 								break;
+							}
 						}
 						while (ch != '%')
 						{
@@ -384,14 +412,18 @@ int main()
 								ch = str[j];
 								i = j;
 								if (ch == '%')
+								{
+									currState = MULTILINE_COMMENT;
 									break;
+								}									
 							}
+							if (fileForWork.eof())
+								ch = '%';
 						}
 						i++;
-						result = "%some text%";
-						currState = MULTILINE_COMMENT;
+						if (currState == MULTILINE_COMMENT)
+							result = "%some text%";
 						cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
-						result = "";
 						break;
 					}
 
@@ -452,17 +484,19 @@ int main()
 						else
 							currState = ERROR;
 						break;
+						i++;
 					}
 
 					default:
 						currState = START;
-							break;
+						break;
 				}
 							
 				i++;
 
-				if ((currState != START) && (currState != MULTILINE_COMMENT) && (currState != STRING) && (currState != IDENTIFICATOR))
+				if ((currState != START) && (currState != MULTILINE_COMMENT) && (currState != STRING) && (currState != IDENTIFICATOR) && (currState != ERROR))
 					cout << "(" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+					
 			}
 		}
 	fileForWork.close();
