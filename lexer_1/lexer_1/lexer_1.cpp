@@ -43,6 +43,7 @@ enum state {
 	WHILE,
 	FOR,
 	INT,
+	FLOAT,
 	DOUBLE,
 	VOID, 
 	VAR, 
@@ -58,6 +59,7 @@ map<state, const char* > info = {
 	{START, "START"},
 	{INT, "INT"},
 	{DOUBLE, "DOUBLE"},
+	{FLOAT, "FLOAT"},
 	{VOID, "VOID"},
 	{VAR, "VAR"},
 	{STRING_TYPE, "STRING_TYPE"},
@@ -120,9 +122,16 @@ bool checkIdent(char ch)
 	return false;
 }
 
+bool checkDigit(char ch)
+{
+	if (isdigit(ch) || (ch == '.') || (ch == 'B'))
+		return true;
+	return false;
+}
+
 int main()
 {
-	const string FILE_IN_NAME = "input.txt";
+	const string FILE_IN_NAME = "input1.txt";
 	ifstream fileForWork;
 	bool is_opened = openFile(fileForWork, FILE_IN_NAME);
 	int numLine = 0;
@@ -141,8 +150,20 @@ int main()
 					nextCh = str[i + 1];
 				else
 					nextCh = ch;
-
-				if (isalpha(ch))
+				if (isdigit(ch)) {
+					int j = i;
+					while (j != str.size())
+					{
+						ch = str[j];
+						if ((ch == ' '))
+							break;
+						result += ch;
+						j++;
+					}
+					currState = START;
+					cout << result << endl;
+				}
+				else if (isalpha(ch))
 				{
 					//result = "";
 					int j = i;
@@ -166,6 +187,8 @@ int main()
 					if (result == "int")
 						currState = INT;
 					if (result == "double")
+						currState = DOUBLE;
+					if (result == "float")
 						currState = DOUBLE;
 					if (result == "void")
 						currState = VOID;
@@ -209,6 +232,7 @@ int main()
 							currState = ERROR;
 						break;
 					}
+
 					case '+':
 					{
 						result = '+';
@@ -446,20 +470,23 @@ int main()
 							if (fileForWork.eof())
 								ch = '%';
 						}
-						i++;
+						i++; 
 						if (currState == MULTILINE_COMMENT)
 						{
 							result = "%some text%";
 							cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
 						}
+						else
+							cout << "(" << numLineOut << "," << position << ")-";
 						break;
 					}
 
 					case '"':
 					{
+						currState = ERROR;
 						int numLineOut = numLine;
-						int position = i;
 						i++;
+						int position = i;
 						ch = str[i];
 						result = '"';
 						for (auto j = i; j < str.size(); j++)
@@ -468,7 +495,10 @@ int main()
 							result += ch;
 							i = j;
 							if (ch == '"')
+							{
+								currState = STRING;
 								break;
+							}
 						}
 						while (ch != '"')
 						{
@@ -482,11 +512,19 @@ int main()
 								result += ch;
 								i = j;
 								if (ch == '"')
+								{
+									currState = STRING;
 									break;
+								}
 							}
+
+							if (fileForWork.eof())
+								ch = '"';
 						}
-						currState = STRING;
-						cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+						if (currState == STRING)
+							cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+						else
+							cout << "(" << numLineOut << "," << position << ")-";
 						break;
 					}
 				
