@@ -2,57 +2,58 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <regex>
 
 using namespace std;
 const string FILE_OUT_NAME = "output.txt";
 
 enum state {
 	START,
-	PLUS,
-	MINUS,
-	MULTIPLICATION,
-	DIVISION,
-	EXP,
+	PLUS, //
+	MINUS, //
+	MULTIPLICATION,//
+	DIVISION, //
+	EXP, //
 	DOT,
 	COMMA,
 	COLON,
-	SEMI_COLON,
-	SMALLER,
-	MORE,
-	EQUAL,
-	LEFT_CURLY_BRACE,
-	RIGHT_CURLY_BRACE,
+	SEMI_COLON, // 
+	SMALLER, // 
+	MORE, //
+	EQUAL, //
+	LEFT_CURLY_BRACE, //
+	RIGHT_CURLY_BRACE, //
 	LEFT_SQUARE_BRACKET,
 	RIGHT_SQUARE_BRACKET,
-	LEFT_PARENTHESIS,
-	RIGHT_PARENTHESIS,
-	COMPARISON,
-	SMALLER_EQUAL,
-	MORE_EQUAL,
-	NOT_EQUAL,
+	LEFT_PARENTHESIS, //
+	RIGHT_PARENTHESIS, //
+	COMPARISON, //
+	SMALLER_EQUAL, //
+	MORE_EQUAL,//
+	NOT_EQUAL, //
 	LOGICAL_NEGATION,
-	LOGICAL_AND,
-	LOGICAL_OR,
-	ONE_LINE_COMMENT,
-	MULTILINE_COMMENT,
-	STRING,
-	IDENTIFICATOR,
-	ERROR,
-	IF,
-	ELSE,
-	WHILE,
-	FOR,
-	INT,
+	LOGICAL_AND, //
+	LOGICAL_OR, //
+	ONE_LINE_COMMENT,//
+	MULTILINE_COMMENT,//
+	STRING,//
+	IDENTIFICATOR,//
+	ERROR,//
+	IF,//
+	ELSE,//
+	WHILE, //
+	FOR,//
+	INT,//
 	FLOAT,
-	DOUBLE,
+	DOUBLE,//
 	VOID, 
-	VAR, 
-	STRING_TYPE, 
-	BOOL, 
-	CHAR,
-	READ,
-	WRITE,
-	DIGIT
+	VAR, //
+	STRING_TYPE, // 
+	BOOL, //
+	CHAR, //
+	READ, //
+	WRITE, //
+	NUMBER
 };
 
 map<state, const char* > info = {
@@ -101,7 +102,7 @@ map<state, const char* > info = {
 	{LOGICAL_AND, "LOGICAL_AND"},
 	{LOGICAL_OR, "LOGICAL_OR"},
 	{IDENTIFICATOR, "IDENTIFICATOR"},
-	{DIGIT, "DIGIT"}
+	{NUMBER, "NUMBER"}
 };
 
 bool openFile(ifstream& file, string fileName)
@@ -122,20 +123,21 @@ bool checkIdent(char ch)
 	return false;
 }
 
-bool checkDigit(char ch)
+bool checkNumber(string result)
 {
-	if (isdigit(ch) || (ch == '.') || (ch == 'B'))
+	std::regex re(R"(^[-+]?0b([01]+)|^[-+]?([0-9]+)$|^[-+]?([0-9]+\.[0-9]+)$|^[-+]?0x([0-9A-F]+)$)");
+	if (regex_match(result.begin(), result.end(), re))
 		return true;
 	return false;
 }
 
 int main()
 {
-	const string FILE_IN_NAME = "input1.txt";
+	const string FILE_IN_NAME = "input.txt";
 	ifstream fileForWork;
 	bool is_opened = openFile(fileForWork, FILE_IN_NAME);
 	int numLine = 0;
-	string str, result = "";
+	string str, result = "", errorText = "";
 	enum state currState = START;
 	char ch, nextCh;
 	if (is_opened)
@@ -151,21 +153,38 @@ int main()
 				else
 					nextCh = ch;
 				if (isdigit(ch)) {
+					result = "";
 					int j = i;
 					while (j != str.size())
 					{
 						ch = str[j];
-						if ((ch == ' '))
+						if ((ch == ' ') || (ch == ';') || (ch == ',') || (ch == '}') || (ch == ']') || (ch == ')'))
 							break;
 						result += ch;
+						i = j;
 						j++;
 					}
 					currState = START;
-					cout << result << endl;
+					
+					if (result.size() < 11)
+					{
+						if (checkNumber(result))
+							currState = NUMBER;
+					}
+					else
+					{
+						currState = ERROR;
+						errorText = "Out of range";
+					}
+					if (currState == START)
+					{
+						currState = ERROR;
+						errorText = "invalid data " + result;
+					}
 				}
 				else if (isalpha(ch))
 				{
-					//result = "";
+					result = "";
 					int j = i;
 					while(j != str.size())
 					{
@@ -173,6 +192,8 @@ int main()
 						if (!isalpha(ch))
 							break;
 						result += ch;
+						i = j;
+
 						j++;
 					}
 					currState = START;
@@ -189,7 +210,7 @@ int main()
 					if (result == "double")
 						currState = DOUBLE;
 					if (result == "float")
-						currState = DOUBLE;
+						currState = FLOAT;
 					if (result == "void")
 						currState = VOID;
 					if (result == "var")
@@ -204,6 +225,11 @@ int main()
 						currState = READ;
 					if (result == "write")
 						currState = WRITE;
+					if (currState == START)
+					{
+						currState = ERROR;
+						errorText = "invalid data " + result;
+					}
 				}
 				else
 				switch (ch)
@@ -222,14 +248,19 @@ int main()
 							if (!checkIdent(ch))
 								break;
 							result += ch;
+							i = j;
 						}
+						i -= 1;
 						if (result.size() < 257)
 						{
 							currState = IDENTIFICATOR;
-							cout << "(" << numLine << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+							cout << "(" << numLine << "," << position << ") - (" << numLine << "," << i+1 << ") " << info.at(currState) << " " << result << endl;
 						}
 						else 
+						{
 							currState = ERROR;
+							errorText = "Out of range";
+						}
 						break;
 					}
 
@@ -426,11 +457,14 @@ int main()
 
 					case '#':
 					{
+						int position = i + 1;
 						getline(fileForWork, str);
 						numLine++;
 						i = 0;
 						result = '#';
 						currState = ONE_LINE_COMMENT;
+						cout << "(" << numLine-1 << "," << position << ") " << info.at(currState) << " " << result << endl;
+
 						break;
 					}
 
@@ -470,14 +504,16 @@ int main()
 							if (fileForWork.eof())
 								ch = '%';
 						}
-						i++; 
 						if (currState == MULTILINE_COMMENT)
 						{
 							result = "%some text%";
 							cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
 						}
-						else
+						else 
+						{
 							cout << "(" << numLineOut << "," << position << ")-";
+							errorText = "Comment not closed";
+						}
 						break;
 					}
 
@@ -522,9 +558,12 @@ int main()
 								ch = '"';
 						}
 						if (currState == STRING)
-							cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
+							cout << "(" << numLineOut << "," << position << ") - (" << numLine << "," << i+1 << ") " << info.at(currState) << " " << result << endl;
 						else
+						{
 							cout << "(" << numLineOut << "," << position << ")-";
+							errorText = "Comment not closed";
+						}
 						break;
 					}
 				
@@ -535,11 +574,12 @@ int main()
 							
 				i++;
 
-				if ((currState != START) && (currState != MULTILINE_COMMENT) && (currState != STRING) && (currState != IDENTIFICATOR) && (currState != ERROR))
+				if ((currState != START) && (currState != MULTILINE_COMMENT) && (currState!= ONE_LINE_COMMENT) && (currState != STRING) && (currState != IDENTIFICATOR) && (currState != ERROR))
 					cout << "(" << numLine << "," << i << ") " << info.at(currState) << " " << result << endl;
 				if (currState == ERROR)
-					cout << "(" << numLine << "," << i << ") " << info.at(currState) << " " << endl;
+					cout << "(" << numLine << "," << i << ") " << info.at(currState) << " " << errorText << endl;
 			}
 		}
+	cout << "LEXER FINISHED THE JOB" << endl;
 	fileForWork.close();
 }

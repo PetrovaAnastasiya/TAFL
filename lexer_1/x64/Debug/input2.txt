@@ -1,0 +1,21 @@
+int main()
+{
+   	string $helloWorld = "Hello, World!";
+	double $number = 3; 
+	while($number != 6)
+	{
+	 	if (number > i)
+			write($helloWorld);
+		else
+			$number = $number * $i / 2 ^ 5 - 1;
+	}
+	#string test comment;
+
+	%test
+multi
+line 
+comment% 
+	string $testMultiLineString = "Hell
+o, World
+!!!;
+}
