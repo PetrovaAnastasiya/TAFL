@@ -562,7 +562,7 @@ int main()
 						else
 						{
 							cout << "(" << numLineOut << "," << position << ")-";
-							errorText = "Comment not closed";
+							errorText = "String not closed";
 						}
 						break;
 					}
@@ -580,6 +580,6 @@ int main()
 					cout << "(" << numLine << "," << i << ") " << info.at(currState) << " " << errorText << endl;
 			}
 		}
-	cout << "LEXER FINISHED THE JOB" << endl;
+	cout << "end of file" << endl;
 	fileForWork.close();
 }
