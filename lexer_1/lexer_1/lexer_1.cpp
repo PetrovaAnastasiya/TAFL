@@ -9,51 +9,52 @@ const string FILE_OUT_NAME = "output.txt";
 
 enum state {
 	START,
-	PLUS, //
-	MINUS, //
-	MULTIPLICATION,//
-	DIVISION, //
-	EXP, //
+	PLUS, 
+	MINUS, 
+	MULTIPLICATION,
+	DIVISION, 
+	EXP, 
 	DOT,
 	COMMA,
 	COLON,
-	SEMI_COLON, // 
-	SMALLER, // 
-	MORE, //
-	EQUAL, //
-	LEFT_CURLY_BRACE, //
-	RIGHT_CURLY_BRACE, //
+	SEMI_COLON, 
+	SMALLER, 
+	MORE, 
+	EQUAL, 
+	LEFT_CURLY_BRACE, 
+	RIGHT_CURLY_BRACE, 
 	LEFT_SQUARE_BRACKET,
 	RIGHT_SQUARE_BRACKET,
-	LEFT_PARENTHESIS, //
-	RIGHT_PARENTHESIS, //
-	COMPARISON, //
-	SMALLER_EQUAL, //
-	MORE_EQUAL,//
-	NOT_EQUAL, //
+	LEFT_PARENTHESIS, 
+	RIGHT_PARENTHESIS, 
+	COMPARISON, 
+	SMALLER_EQUAL, 
+	MORE_EQUAL,
+	NOT_EQUAL, 
 	LOGICAL_NEGATION,
-	LOGICAL_AND, //
-	LOGICAL_OR, //
-	ONE_LINE_COMMENT,//
-	MULTILINE_COMMENT,//
-	STRING,//
-	IDENTIFICATOR,//
-	ERROR,//
-	IF,//
-	ELSE,//
-	WHILE, //
-	FOR,//
-	INT,//
+	LOGICAL_AND, 
+	LOGICAL_OR, 
+	ONE_LINE_COMMENT,
+	MULTILINE_COMMENT,
+	STRING,
+	IDENTIFICATOR,
+	ERROR,
+	IF,
+	ELSE,
+	WHILE, 
+	FOR,
+	INT,
 	FLOAT,
-	DOUBLE,//
+	DOUBLE,
 	VOID, 
-	VAR, //
-	STRING_TYPE, // 
-	BOOL, //
-	CHAR, //
-	READ, //
-	WRITE, //
-	NUMBER
+	VAR, 
+	STRING_TYPE,  
+	BOOL, 
+	CHAR, 
+	READ, 
+	WRITE, 
+	NUMBER,
+	END_OF_FILE
 };
 
 map<state, const char* > info = {
@@ -102,7 +103,8 @@ map<state, const char* > info = {
 	{LOGICAL_AND, "LOGICAL_AND"},
 	{LOGICAL_OR, "LOGICAL_OR"},
 	{IDENTIFICATOR, "IDENTIFICATOR"},
-	{NUMBER, "NUMBER"}
+	{NUMBER, "NUMBER"},
+	{END_OF_FILE,  "END_OF_FILE"}
 };
 
 bool openFile(ifstream& file, string fileName)
@@ -580,6 +582,8 @@ int main()
 					cout << "(" << numLine << "," << i << ") " << info.at(currState) << " " << errorText << endl;
 			}
 		}
-	cout << "end of file" << endl;
 	fileForWork.close();
+	currState = END_OF_FILE;
+	cout << info.at(currState) << endl;
+	
 }
