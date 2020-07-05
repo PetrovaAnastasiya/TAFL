@@ -51,6 +51,7 @@ Grammar::Grammar(string fileName)
 		in.close();
 	}
 	m_factorizeGrammar = {};
+	m_counter = 0;
 }
 
 void Grammar::PrintGrammar(string fileName)
@@ -72,9 +73,32 @@ void Grammar::PrintGrammar(string fileName)
 	}
 }
 
+void Grammar::PrintGrammarF(string fileName)
+{
+	ofstream out;
+	try {
+		out.open(fileName);
+	}
+	catch (exception err)
+	{
+		cout << FILE_OPEN_ERROR;
+	}
+	if (out.is_open())
+	{
+		for (size_t i = 0; i < m_factorizeGrammar.size(); i++)
+		{
+			m_factorizeGrammar[i].PrintExpression(out);
+		}
+	}
+}
+
 void Grammar::AddExpression(Expression expression) 
 {
 	m_grammar.push_back(expression);
+}
+void Grammar::AddFactorizeExpression(Expression expression)
+{
+	m_factorizeGrammar.push_back(expression);
 }
 
 //void Grammar::SortGrammar()
@@ -139,12 +163,48 @@ void Grammar::Sort()
 	/*minElement = Less(m_grammar[0].GetVector(), m_grammar[1].GetVector());
 	minElement.PrintExpression(cout);*/
 }
+string Grammar::neterminalCount(Expression expression)
+{
+	string str, count;
+	str = expression.GetVector()[0];
+	count = to_string(m_counter);
+	str.insert(str.size() - 1 , count);
+	return str;
+}
 
 void Grammar::Factorize() 
 {
-	Expression factorExpression;
+	Expression factorExpression = {};
+	Expression commonPart = {};
+	vector <Expression> rightPart = {};
+	int i,j;
+	j = 0;
+	while (j < m_grammar.size() - 1)
+	{
+		factorExpression = m_grammar[j];
+		i = 1;
+		while (factorExpression.GetVector()[i] == m_grammar[j+1].GetVector()[i])
+		{
+			commonPart.AddSymbol(factorExpression.GetVector()[i]);
+			i++;
+		}
+
+		if (commonPart.GetSize() > 0)
+		{
+			Expression addedElem = {};
+
+			addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
+			for (auto k = 0; k < commonPart.GetSize(); k++)
+			{
+				addedElem.AddSymbol(commonPart.GetVector()[k]);
+			}
+
+			addedElem.AddSymbol(neterminalCount(m_grammar[j]));
+			m_factorizeGrammar.push_back(addedElem);
+		}
+		j++;
+	}
+
 	//SortGrammar();
 	//SortByIndex();
-	
-	
 }
