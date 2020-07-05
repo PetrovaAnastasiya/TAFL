@@ -26,3 +26,13 @@ void Expression::PrintExpression(ostream& out)
 	copy(m_symbol.begin(), m_symbol.end(), ostream_iterator<string>(out, " "));
 	out << endl;
 }
+
+int Expression::GetSize()
+{
+	return m_symbol.size();
+}
+
+vector<string> Expression::GetVector()
+{
+	return m_symbol;
+}

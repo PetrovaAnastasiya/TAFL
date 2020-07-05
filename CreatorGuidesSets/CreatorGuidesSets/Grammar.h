@@ -10,6 +10,8 @@ using namespace std;
 
 const string  FILE_OPEN_ERROR = "File open ERROR";
 
+
+
 class Grammar 
 {
 	//В 0 элементе вектора хранится левая часть, в остальных правая
@@ -21,4 +23,7 @@ public:
 	};
 	Grammar(string fileName);
 	void PrintGrammar(string fileName);
+	void AddExpression(Expression expression);
+	void SortGrammar();
+	void SortByIndex();
 }; 

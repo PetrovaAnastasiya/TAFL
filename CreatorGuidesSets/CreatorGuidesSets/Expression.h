@@ -22,4 +22,6 @@ public:
 
 	void PrintExpression(ofstream& out);
 	void PrintExpression(ostream& out);
+	int GetSize();
+	vector<string> GetVector();
 };
