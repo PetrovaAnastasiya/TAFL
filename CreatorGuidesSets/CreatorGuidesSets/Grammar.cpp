@@ -89,16 +89,16 @@ void Grammar::AddExpression(Expression expression)
 
 Expression Grammar::Less(Expression a, Expression b, int& minelementIndex, int k)
 {
-	if (a.GetSize() < b.GetSize())
+	if (a.GetSize() <= b.GetSize())
 		return a;
 	else
 		if (a.GetSize() == b.GetSize())
 		{
 			int i = 1;
-			while (i < a.GetSize())
+			while (i <= a.GetSize())
 			{
 
-				if (a.GetVector()[i] < b.GetVector()[i])
+				if (a.GetVector()[i] <= b.GetVector()[i])
 				{
 					return a;
 				}
@@ -112,7 +112,7 @@ Expression Grammar::Less(Expression a, Expression b, int& minelementIndex, int k
 		}
 		else 
 		{
-			minelementIndex = k; // А тут????
+			minelementIndex = k;	
 			return b;
 		}
 }
@@ -122,29 +122,27 @@ void Grammar::Sort()
 {
 	vector<Expression> sorted{};
 	Expression minElement = {};
-	minElement = m_grammar[0];
-	int index = 0;
+	
 
 	while (m_grammar.size() > 0) 
 	{
+		minElement = m_grammar[0];
+		int index = 0;
 		for (auto i = 1; i < m_grammar.size(); i++)
 		{
 			minElement = Less(minElement, m_grammar[i].GetVector(), index, i);
 		}
 		sorted.push_back(minElement);
-		m_grammar.erase(m_grammar.begin() + index - 1);
+		m_grammar.erase(m_grammar.begin() + index);
 	}
-	 
 	m_grammar = sorted;
 	/*minElement = Less(m_grammar[0].GetVector(), m_grammar[1].GetVector());
 	minElement.PrintExpression(cout);*/
-
 }
 
 void Grammar::Factorize() 
 {
-	Expression currentExpression;
-	//
+	Expression factorExpression;
 	//SortGrammar();
 	//SortByIndex();
 	
