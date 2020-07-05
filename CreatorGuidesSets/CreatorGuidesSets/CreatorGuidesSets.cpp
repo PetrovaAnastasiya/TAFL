@@ -3,8 +3,7 @@
 int main()
 {
 	Grammar grammar("input.txt");
-	grammar.SortGrammar();
-	grammar.SortByIndex();
+	grammar.Sort();
 	grammar.PrintGrammar("output.txt");
 	return 0;
 }

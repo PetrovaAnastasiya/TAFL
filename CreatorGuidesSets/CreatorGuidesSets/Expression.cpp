@@ -36,3 +36,8 @@ vector<string> Expression::GetVector()
 {
 	return m_symbol;
 }
+
+void  Expression::AddSymbol(string symbol)
+{
+	m_symbol.push_back(symbol);
+}

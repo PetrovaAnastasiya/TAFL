@@ -24,4 +24,5 @@ public:
 	void PrintExpression(ostream& out);
 	int GetSize();
 	vector<string> GetVector();
+	void AddSymbol(string symbol);
 };
