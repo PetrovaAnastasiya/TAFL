@@ -8,8 +8,17 @@
 
 using namespace std;
 
+const string  FILE_OPEN_ERROR = "File open ERROR";
+
 class Grammar 
 {
 	//В 0 элементе вектора хранится левая часть, в остальных правая
-	vector<Expression> grammar;
+private:
+	vector<Expression> m_grammar;
+public:
+	Grammar(vector<Expression> grammar = {}) : m_grammar(grammar)
+	{
+	};
+	Grammar(string fileName);
+	void PrintGrammar(string fileName);
 }; 

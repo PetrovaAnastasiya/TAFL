@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <regex>
 
 using namespace std;
 
@@ -18,4 +19,7 @@ public:
 	{
 	};
 	Expression(std::istream& in);
+
+	void PrintExpression(ofstream& out);
+	void PrintExpression(ostream& out);
 };
