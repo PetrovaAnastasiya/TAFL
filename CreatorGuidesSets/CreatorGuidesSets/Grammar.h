@@ -26,7 +26,7 @@ public:
 	void AddExpression(Expression expression);
 	//void SortGrammar();
 	//void SortByIndex();
-	Expression Less(Expression a, Expression b, int& index);
+	Expression Less(Expression a, Expression b, int& minelementIndex, int k);
 	void Sort();
 	void Factorize();
 }; 
