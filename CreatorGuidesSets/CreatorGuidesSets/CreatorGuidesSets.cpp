@@ -5,7 +5,7 @@ int main()
 	Grammar grammar("input.txt");
 	grammar.Sort();
 	grammar.Factorize();
-	grammar.PrintGrammar("output.txt");
+	grammar.PrintGrammarF("output.txt");
 
 	return 0;
 }

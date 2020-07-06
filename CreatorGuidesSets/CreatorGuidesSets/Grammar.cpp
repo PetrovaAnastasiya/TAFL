@@ -51,7 +51,7 @@ Grammar::Grammar(string fileName)
 		in.close();
 	}
 	m_factorizeGrammar = {};
-	m_counter = 0;
+	m_counter = 1;
 }
 
 void Grammar::PrintGrammar(string fileName)
@@ -141,7 +141,6 @@ Expression Grammar::Less(Expression a, Expression b, int& minelementIndex, int k
 		}
 }
 
-
 void Grammar::Sort()
 {
 	vector<Expression> sorted{};
@@ -169,22 +168,30 @@ string Grammar::neterminalCount(Expression expression)
 	str = expression.GetVector()[0];
 	count = to_string(m_counter);
 	str.insert(str.size() - 1 , count);
+
 	return str;
+	
 }
 
 void Grammar::Factorize() 
 {
 	Expression factorExpression = {};
-	Expression commonPart = {};
 	vector <Expression> rightPart = {};
-	int i,j;
-	j = 0;
+	int i;
+	auto j = 0;
+
 	while (j < m_grammar.size() - 1)
 	{
+		Expression commonPart = {};
+
 		factorExpression = m_grammar[j];
+		Expression tmp = m_grammar[j + 1];
 		i = 1;
-		while (factorExpression.GetVector()[i] == m_grammar[j+1].GetVector()[i])
+		while ((i < factorExpression.GetSize()) && (factorExpression.GetVector()[i] == tmp.GetVector()[i]))
 		{
+			std::cout << factorExpression.GetVector()[i] + "||";
+			std::cout << tmp.GetVector()[i] << endl;
+
 			commonPart.AddSymbol(factorExpression.GetVector()[i]);
 			i++;
 		}
@@ -194,6 +201,7 @@ void Grammar::Factorize()
 			Expression addedElem = {};
 
 			addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
+			
 			for (auto k = 0; k < commonPart.GetSize(); k++)
 			{
 				addedElem.AddSymbol(commonPart.GetVector()[k]);
@@ -204,7 +212,4 @@ void Grammar::Factorize()
 		}
 		j++;
 	}
-
-	//SortGrammar();
-	//SortByIndex();
 }

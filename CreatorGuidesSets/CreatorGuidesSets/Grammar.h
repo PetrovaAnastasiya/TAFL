@@ -19,7 +19,7 @@ private:
 	int m_counter;
 
 public:
-	Grammar(vector<Expression> grammar = {}, int counter = 0) : m_grammar(grammar), m_factorizeGrammar(grammar), m_counter(m_counter)
+	Grammar(vector<Expression> grammar = {}, int counter = 1) : m_grammar(grammar), m_factorizeGrammar(grammar), m_counter(counter)
 	{
 	};
 	Grammar(string fileName);
