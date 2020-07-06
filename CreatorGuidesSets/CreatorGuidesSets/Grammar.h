@@ -34,4 +34,6 @@ public:
 	bool Equal(Expression a, Expression b);
 	Expression FindTail(Expression commonPart, Expression b);
 	void Factorize();
+
+	void FactorizeRepeat();
 }; 

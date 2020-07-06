@@ -16,6 +16,7 @@ Grammar::Grammar(string fileName)
 		{
 			Expression expression =  Expression(in);
 			m_grammar.push_back(expression);
+			
 		}
 
 		in.close();
@@ -168,7 +169,6 @@ Expression Grammar::FindTail(Expression commonPart, Expression b)
 	return tail;
 }
 
-
 void Grammar::Factorize() 
 {
 	Expression savedCommonPart = {};
@@ -189,8 +189,8 @@ void Grammar::Factorize()
 		i = 1;
 		while ((i < factorExpression.GetSize()) && (factorExpression.GetVector()[i] == tmp.GetVector()[i]))
 		{
-			std::cout << factorExpression.GetVector()[i] + "||";
-			std::cout << tmp.GetVector()[i] << endl;
+			//std::cout << factorExpression.GetVector()[i] + "||";
+			//std::cout << tmp.GetVector()[i] << endl;
 			if (savedCommonPart.GetSize() == 0)
 				commonPart.AddSymbol(factorExpression.GetVector()[i]);
 			else
@@ -206,7 +206,7 @@ void Grammar::Factorize()
 			if (equal)
 			{
 				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
-				addedElem.AddSymbol("->");
+				addedElem.AddSymbol("-");
 
 				tail = FindTail(commonPart, tmp);
 				//addedElem.AddSymbol("|");
@@ -220,7 +220,7 @@ void Grammar::Factorize()
 			{
 				m_counter++;
 				addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
-				addedElem.AddSymbol("->");
+				addedElem.AddSymbol("-");
 
 				for (auto k = 0; k < commonPart.GetSize(); k++)
 				{
@@ -233,7 +233,7 @@ void Grammar::Factorize()
 
 				tail = {};
 				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
-				addedElem.AddSymbol("->");
+				addedElem.AddSymbol("-");
 
 				tail = FindTail(commonPart, factorExpression);
 				for (auto k = 0; k < tail.GetSize(); k++)
@@ -247,7 +247,7 @@ void Grammar::Factorize()
 
 				tail = {};
 				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
-				addedElem.AddSymbol("->");
+				addedElem.AddSymbol("-");
 				tail = FindTail(commonPart, tmp);
 				for (auto k = 0; k < tail.GetSize(); k++)
 				{
@@ -260,4 +260,20 @@ void Grammar::Factorize()
 		}
 		j++;
 	}
+}
+
+void Grammar::FactorizeRepeat() 
+{
+
+	std::cout << m_grammar.size() << " ";
+	/*Factorize();
+	std::cout << m_factorizeGrammar.size();
+	if (m_grammar.size() != m_factorizeGrammar.size())
+	{
+		m_grammar =  m_factorizeGrammar;
+		Factorize();
+		std::cout << m_grammar.size() << " ";
+		std::cout << m_factorizeGrammar.size();
+		std::cout << endl;
+	}*/
 }
