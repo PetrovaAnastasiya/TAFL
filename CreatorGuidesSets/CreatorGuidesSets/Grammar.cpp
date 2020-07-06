@@ -152,6 +152,11 @@ bool Grammar::Equal(Expression a, Expression b)
 Expression Grammar::FindTail(Expression commonPart, Expression b)
 {
 	Expression tail = {};
+	if (commonPart.GetSize() == b.GetSize())
+	{
+		tail.AddSymbol("@");
+		return tail;
+	}
 	for (size_t i = commonPart.GetSize() + 1; i < b.GetSize(); i++)
 	{
 		tail.AddSymbol(b.GetVector()[i]);
@@ -217,16 +222,16 @@ void Grammar::Factorize()
 
 				tail = {};
 				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
+				addedElem.AddSymbol("|");
 				tail = FindTail(commonPart, factorExpression);
 				for (auto k = 0; k < tail.GetSize(); k++)
 				{
 					addedElem.AddSymbol(tail.GetVector()[k]);
 				}
 				m_factorizeGrammar.push_back(addedElem);
-				addedElem = {};
 
 				tail = {};
-				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
+				
 				tail = FindTail(commonPart, tmp);
 				for (auto k = 0; k < tail.GetSize(); k++)
 				{
