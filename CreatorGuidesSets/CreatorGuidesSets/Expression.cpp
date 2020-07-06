@@ -11,8 +11,8 @@ Expression::Expression(std::istream& in)
 		vector<std::string> words{ it, {} };
 		m_symbol = words;
 		m_symbol.erase(m_symbol.begin() + 1);
-		
 	}
+
 }
 
 void Expression::PrintExpression(ofstream& out)

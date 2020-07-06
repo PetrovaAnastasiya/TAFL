@@ -14,8 +14,9 @@ class Expression
 {
 private:
 	vector<string> m_symbol;
+
 public:
-	Expression(vector<string> symbol = {}) : m_symbol(symbol)
+	Expression(vector<string> symbol = {}) : m_symbol(symbol) 
 	{
 	};
 	Expression(std::istream& in);
