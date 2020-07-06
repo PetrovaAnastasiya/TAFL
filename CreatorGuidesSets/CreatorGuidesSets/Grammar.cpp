@@ -67,6 +67,7 @@ void Grammar::AddExpression(Expression expression)
 {
 	m_grammar.push_back(expression);
 }
+
 void Grammar::AddFactorizeExpression(Expression expression)
 {
 	m_factorizeGrammar.push_back(expression);
@@ -152,15 +153,18 @@ bool Grammar::Equal(Expression a, Expression b)
 Expression Grammar::FindTail(Expression commonPart, Expression b)
 {
 	Expression tail = {};
-	if (commonPart.GetSize() == b.GetSize())
-	{
-		tail.AddSymbol("@");
-		return tail;
-	}
+	//if (commonPart.GetSize() == b.GetSize())
+	//{
+	//	tail.AddSymbol("@");
+	//	return tail;
+	//}
 	for (size_t i = commonPart.GetSize() + 1; i < b.GetSize(); i++)
 	{
 		tail.AddSymbol(b.GetVector()[i]);
 	}
+	if (tail.GetSize() < 1)
+		tail.AddSymbol("@");
+	
 	return tail;
 }
 
@@ -171,6 +175,8 @@ void Grammar::Factorize()
 	Expression factorExpression = {};
 	int i;
 	auto j = 0;
+	
+	//если savedCommandPArt != 0, то сравнение с ним
 
 	while (j < m_grammar.size() - 1)
 	{
@@ -179,14 +185,16 @@ void Grammar::Factorize()
 		Expression tail = {};
 
 		factorExpression = m_grammar[j];
-		Expression tmp = m_grammar[j + 1];
+		Expression tmp = m_grammar[j + 1];	
 		i = 1;
 		while ((i < factorExpression.GetSize()) && (factorExpression.GetVector()[i] == tmp.GetVector()[i]))
 		{
 			std::cout << factorExpression.GetVector()[i] + "||";
 			std::cout << tmp.GetVector()[i] << endl;
-
-			commonPart.AddSymbol(factorExpression.GetVector()[i]);
+			if (savedCommonPart.GetSize() == 0)
+				commonPart.AddSymbol(factorExpression.GetVector()[i]);
+			else
+				commonPart = savedCommonPart;
 			i++;
 		}
 
@@ -197,14 +205,15 @@ void Grammar::Factorize()
 			equal = Equal(commonPart, savedCommonPart);
 			if (equal)
 			{
-				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
+				//addedElem.AddSymbol(neterminalCount(m_grammar[j]));
+				
 				tail = FindTail(commonPart, tmp);
+				addedElem.AddSymbol("|");
 				for (auto k = 0; k < tail.GetSize(); k++)
 				{
 					addedElem.AddSymbol(tail.GetVector()[k]);
 				}
 				m_factorizeGrammar.push_back(addedElem);
-				addedElem = {};
 			}
 			else 
 			{
@@ -222,23 +231,22 @@ void Grammar::Factorize()
 
 				tail = {};
 				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
-				addedElem.AddSymbol("|");
+				
 				tail = FindTail(commonPart, factorExpression);
 				for (auto k = 0; k < tail.GetSize(); k++)
 				{
 					addedElem.AddSymbol(tail.GetVector()[k]);
 				}
-				m_factorizeGrammar.push_back(addedElem);
+				//m_factorizeGrammar.push_back(addedElem);
+				//addedElem.AddSymbol("|");
 
 				tail = {};
-				
 				tail = FindTail(commonPart, tmp);
 				for (auto k = 0; k < tail.GetSize(); k++)
 				{
 					addedElem.AddSymbol(tail.GetVector()[k]);
 				}
 				m_factorizeGrammar.push_back(addedElem);
-				addedElem = {};
 				
 				savedCommonPart = commonPart;
 			}
