@@ -7,7 +7,7 @@ GrammarEnum::GrammarEnum(Grammar grammar)
 	currNeterminal = grammar.getExpression(0).GetVector()[0];
 	for (size_t i = 0; i < grammar.getSize(); i++)
 	{
-		std::cout << grammar.getExpression(i).GetVector()[0] << " ";
+		//std::cout << grammar.getExpression(i).GetVector()[0] << " ";
 		/*std::cout << grammar.getExpression(i).GetVector()[0] << " " ;
 		std::cout << currNeterminal << endl;*/
 

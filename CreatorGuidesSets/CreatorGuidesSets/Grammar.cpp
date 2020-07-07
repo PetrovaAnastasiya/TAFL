@@ -118,6 +118,7 @@ void Grammar::Sort()
 			minElement = Less(minElement, m_grammar[i].GetVector(), index, i);
 		}
 		sorted.push_back(minElement);
+		
 		m_grammar.erase(m_grammar.begin() + index);
 	}
 	m_grammar = sorted;
@@ -259,7 +260,7 @@ void Grammar::Factorize()
 		}
 		j++;
 	}
-	if (m_factorizeGrammar.size() > 1)
+	if (m_factorizeGrammar.size() != 0)
 		m_grammar = m_factorizeGrammar;
 }
 
@@ -282,21 +283,18 @@ void Grammar::Factorize()
 //	}
 //}
 
-int  Grammar::getSize()
+int Grammar::getSize()
 {
 	return m_grammar.size();
 }
 
-Expression  Grammar::getExpression(int index)
+Expression Grammar::getExpression(int index)
 {
 	return m_grammar[index];
 }
 
 void Grammar::DeleteDuplicate()
 {
-	Sort();
-
-
 	for (size_t i = 0; i < m_grammar.size(); i++)
 	{
 		for (size_t j = i + 1; j < m_grammar.size(); j++)
@@ -308,3 +306,13 @@ void Grammar::DeleteDuplicate()
 		}
 	}
 }
+
+
+void Grammar::AddParts(Grammar smallGrammar)
+{
+	for (size_t i = 0; i < smallGrammar.getSize(); i++)
+	{
+		m_grammar.push_back(smallGrammar.getExpression(i));
+	}
+}
+
