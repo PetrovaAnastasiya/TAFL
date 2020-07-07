@@ -5,7 +5,7 @@ GrammarEnum::GrammarEnum(Grammar grammar)
 	Grammar smallGrammar;
 	string currNeterminal;
 	currNeterminal = grammar.getExpression(1).GetVector()[0];
-	for (size_t i = 0; i < grammar.getSize(); i++)
+	for (auto i = 0; i < grammar.getSize(); i++)
 	{
 		if (grammar.getExpression(i).GetVector()[0] == currNeterminal)
 			smallGrammar.AddExpression(grammar.getExpression(i));
@@ -15,4 +15,9 @@ GrammarEnum::GrammarEnum(Grammar grammar)
 		}
 	}
 	m_grammarEnum.push_back(smallGrammar);
+}
+
+Grammar GrammarEnum::getElem(int index)
+{
+	return m_grammarEnum[index];
 }

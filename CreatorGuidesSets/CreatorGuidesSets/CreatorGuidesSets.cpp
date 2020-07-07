@@ -1,8 +1,12 @@
-﻿#include "Grammar.h"
+﻿#include "GrammarEnum.h"
 
 int main()
 {
+	
 	Grammar grammar("input.txt");
+	GrammarEnum currentGrammar(grammar);
+	currentGrammar.getElem(0).PrintGrammar("Split.txt");
+
 	grammar.Sort();
 	Grammar partGrammar;
 	partGrammar = grammar;
