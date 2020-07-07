@@ -11,6 +11,7 @@ int main()
 		partGrammar = currentGrammar.getElem(i);
 		//partGrammar.Sort();
 		partGrammar.DeleteDuplicate();
+		partGrammar.Factorize();
 		partGrammar.PrintGrammar("Split" + to_string(i) + ".txt");
 
 		//currentGrammar.getElem(i).PrintGrammar("Split" + to_string(i) + ".txt");

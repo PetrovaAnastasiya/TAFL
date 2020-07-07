@@ -1,2 +1,3 @@
-<S> type 
-<S> type <F> 
+<S> - type <S1> 
+<S1> - @ 
+<S1> - <F> 

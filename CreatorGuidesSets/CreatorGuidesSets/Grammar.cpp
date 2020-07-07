@@ -259,7 +259,8 @@ void Grammar::Factorize()
 		}
 		j++;
 	}
-	m_grammar = m_factorizeGrammar;
+	if (m_factorizeGrammar.size() > 1)
+		m_grammar = m_factorizeGrammar;
 }
 
 //void Grammar::FactorizeRepeat() 
@@ -294,4 +295,16 @@ Expression  Grammar::getExpression(int index)
 void Grammar::DeleteDuplicate()
 {
 	Sort();
+
+
+	for (size_t i = 0; i < m_grammar.size(); i++)
+	{
+		for (size_t j = i + 1; j < m_grammar.size(); j++)
+		{
+			if (Equal(m_grammar[i], m_grammar[j]))
+			{
+				m_grammar.erase(m_grammar.begin() + j);
+			}
+		}
+	}
 }

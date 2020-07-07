@@ -35,6 +35,6 @@ public:
 	//void FactorizeRepeat();
 	int getSize();
 	Expression getExpression(int index);
-
+	void SortByIndex();
 	void DeleteDuplicate();
 }; 
