@@ -1,10 +1,16 @@
 <S> - type <F>
+<S> - type 
 <F> - <I> = <T>
 <F> - <I> = <T> ; <F>
 <T> - int
 <T> - record <G> end
 <G> - <I> : <T>
+<G> - <I>
+<G> - <I> : 
 <G> - <I> : <T> ; <G>
+<G> - a
+<G> - b
+<G> - c
 <I> - a
 <I> - b
 <I> - c

@@ -14,5 +14,5 @@ public:
 	};
 	GrammarEnum(Grammar grammar);
 	Grammar getElem(int index);
-
+	int getSize();
 };

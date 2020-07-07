@@ -35,5 +35,6 @@ public:
 	//void FactorizeRepeat();
 	int getSize();
 	Expression getExpression(int index);
-	void SplitGrammar();
+
+	void DeleteDuplicate();
 }; 

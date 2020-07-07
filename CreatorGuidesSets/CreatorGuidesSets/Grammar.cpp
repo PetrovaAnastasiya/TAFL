@@ -109,7 +109,6 @@ void Grammar::Sort()
 	vector<Expression> sorted{};
 	Expression minElement = {};
 	
-
 	while (m_grammar.size() > 0) 
 	{
 		minElement = m_grammar[0];
@@ -292,7 +291,7 @@ Expression  Grammar::getExpression(int index)
 	return m_grammar[index];
 }
 
-void Grammar::SplitGrammar()
+void Grammar::DeleteDuplicate()
 {
-	
+	Sort();
 }
