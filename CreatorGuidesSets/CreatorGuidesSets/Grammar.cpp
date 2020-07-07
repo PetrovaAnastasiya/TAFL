@@ -260,20 +260,39 @@ void Grammar::Factorize()
 		}
 		j++;
 	}
+	m_grammar = m_factorizeGrammar;
 }
 
-void Grammar::FactorizeRepeat() 
-{
+//void Grammar::FactorizeRepeat() 
+//{
+//
+//	std::cout << m_grammar.size() << " ";
+//	Factorize();
+//	std::cout << m_factorizeGrammar.size();
+//
+//	if  (m_grammar.size() != m_factorizeGrammar.size())
+//	{
+//		m_grammar =  m_factorizeGrammar;
+//		Factorize();
+//		std::cout << m_grammar.size() << " ";
+//		std::cout << m_factorizeGrammar.size();
+//		std::cout << endl;
+//		PrintGrammar("a.txt");
+//		PrintGrammarF("b.txt");
+//	}
+//}
 
-	std::cout << m_grammar.size() << " ";
-	/*Factorize();
-	std::cout << m_factorizeGrammar.size();
-	if (m_grammar.size() != m_factorizeGrammar.size())
-	{
-		m_grammar =  m_factorizeGrammar;
-		Factorize();
-		std::cout << m_grammar.size() << " ";
-		std::cout << m_factorizeGrammar.size();
-		std::cout << endl;
-	}*/
+int  Grammar::getSize()
+{
+	return m_grammar.size();
+}
+
+Expression  Grammar::getExpression(int index)
+{
+	return m_grammar[index];
+}
+
+void Grammar::SplitGrammar()
+{
+	
 }

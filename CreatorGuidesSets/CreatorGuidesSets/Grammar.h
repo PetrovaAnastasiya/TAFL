@@ -4,8 +4,6 @@
 #include <map>
 #include "Expression.h"
 
-#define neterminal string
-
 using namespace std;
 
 const string  FILE_OPEN_ERROR = "File open ERROR";
@@ -34,6 +32,8 @@ public:
 	bool Equal(Expression a, Expression b);
 	Expression FindTail(Expression commonPart, Expression b);
 	void Factorize();
-
-	void FactorizeRepeat();
+	//void FactorizeRepeat();
+	int getSize();
+	Expression getExpression(int index);
+	void SplitGrammar();
 }; 

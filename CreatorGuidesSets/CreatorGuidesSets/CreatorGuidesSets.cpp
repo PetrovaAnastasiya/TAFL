@@ -2,10 +2,14 @@
 
 int main()
 {
-	Grammar grammar("input1.txt");
+	Grammar grammar("input.txt");
 	grammar.Sort();
-	grammar.Factorize();
-	grammar.PrintGrammar("output.txt");
+	Grammar partGrammar;
+	partGrammar = grammar;
+	partGrammar.SplitGrammar();
+	partGrammar.Factorize();
+
+	partGrammar.PrintGrammar("output.txt");
 	grammar.PrintGrammarF("output1.txt");
 
 	return 0;
