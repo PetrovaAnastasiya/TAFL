@@ -207,16 +207,16 @@ void Grammar::Factorize()
 			i++;
 		}
 		
-		if (commonPart.GetSize() == 0)		
-		{
-			addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
-			addedElem.AddSymbol("-");
-			for (auto k = 1; k < m_grammar[j].GetSize(); k++)
-			{
-				addedElem.AddSymbol(m_grammar[j].GetVector()[k]);
-			}
-			m_factorizeGrammar.push_back(addedElem);
-		}
+		//if (commonPart.GetSize() == 0)		
+		//{
+		//	addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
+		//	addedElem.AddSymbol("-");
+		//	for (auto k = 1; k < m_grammar[j].GetSize(); k++)
+		//	{
+		//		addedElem.AddSymbol(m_grammar[j].GetVector()[k]);
+		//	}
+		//	m_factorizeGrammar.push_back(addedElem);
+		//}
 		
 		if (commonPart.GetSize() > 0)
 		{
@@ -226,7 +226,7 @@ void Grammar::Factorize()
 			if (equal)
 			{
 				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
-				addedElem.AddSymbol("-");
+				//addedElem.AddSymbol("-");
 
 				tail = FindTail(commonPart, tmp);
 				//addedElem.AddSymbol("|");
@@ -240,7 +240,7 @@ void Grammar::Factorize()
 			{
 				m_counter++;
 				addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
-				addedElem.AddSymbol("-");
+				//addedElem.AddSymbol("-");
 
 				for (auto k = 0; k < commonPart.GetSize(); k++)
 				{
@@ -253,7 +253,7 @@ void Grammar::Factorize()
 
 				tail = {};
 				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
-				addedElem.AddSymbol("-");
+				//addedElem.AddSymbol("-");
 
 				tail = FindTail(commonPart, factorExpression);
 				for (auto k = 0; k < tail.GetSize(); k++)
@@ -267,7 +267,7 @@ void Grammar::Factorize()
 
 				tail = {};
 				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
-				addedElem.AddSymbol("-");
+				//addedElem.AddSymbol("-");
 				tail = FindTail(commonPart, tmp);
 				for (auto k = 0; k < tail.GetSize(); k++)
 				{
