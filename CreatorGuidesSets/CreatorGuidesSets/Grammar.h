@@ -36,5 +36,6 @@ public:
 	int getSize();
 	Expression getExpression(int index);
 	void DeleteDuplicate();
+	void DeleteDuplicateRepeat();
 	void AddParts(Grammar smallGrammar);
 }; 

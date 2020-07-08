@@ -1,4 +1,7 @@
-<G> -> <I> : <G1> 
-<G1> -> @ 
-<G1> -> <T> 
-<G1> -> <T> ; <G> 
+<F> [Identifier] 
+<F> [Integer] 
+<F> [Binary] 
+<F> [Hexadecimal] 
+<F> [FloatPointNumber] 
+<F> - <F> 
+<F> ( <E> ) 

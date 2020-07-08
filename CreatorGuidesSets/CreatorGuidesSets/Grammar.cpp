@@ -84,7 +84,6 @@ Expression Grammar::Less(Expression a, Expression b, int& minelementIndex, int k
 			int i = 1;
 			while (i <= a.GetSize())
 			{
-
 				if (a.GetVector()[i] <= b.GetVector()[i])
 				{
 					return a;
@@ -118,8 +117,20 @@ void Grammar::Sort()
 			minElement = Less(minElement, m_grammar[i].GetVector(), index, i);
 		}
 		sorted.push_back(minElement);
-		
 		m_grammar.erase(m_grammar.begin() + index);
+	}
+	m_grammar = sorted;
+	sorted = {};
+	for (size_t i = 0; i < m_grammar.size(); i++)
+	{
+		sorted.push_back(m_grammar[i].GetVector());
+		for (size_t j = i + 1; j < m_grammar.size(); j++)
+		{
+			if (m_grammar[i].GetVector()[1] == m_grammar[j].GetVector()[1])
+			{
+				sorted.push_back(m_grammar[j].GetVector());
+			}
+		}
 	}
 	m_grammar = sorted;
 }
@@ -307,6 +318,15 @@ void Grammar::DeleteDuplicate()
 	}
 }
 
+void Grammar::DeleteDuplicateRepeat()
+{
+	int size = m_grammar.size();
+	DeleteDuplicate();
+	if (size != m_grammar.size())
+	{
+		DeleteDuplicate();
+	}
+}
 
 void Grammar::AddParts(Grammar smallGrammar)
 {
