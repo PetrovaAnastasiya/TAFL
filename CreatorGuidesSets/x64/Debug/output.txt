@@ -1,12 +1,17 @@
-<S> <E> 
-<E> <T> 
-<E> <E> + <T> 
-<T> <F> 
-<T> <T> * <F> 
-<F> [Identifier] 
-<F> [Integer] 
-<F> [Binary] 
-<F> [Hexadecimal] 
-<F> [FloatPointNumber] 
-<F> - <F> 
-<F> ( <E> ) 
+<S> - type <S1> 
+<S1> - @ 
+<S1> - <F> 
+<F> - <I> = <T> <F1> 
+<F1> - @ 
+<F1> - ; <F> 
+<T> - int 
+<G> - <I> <G1> 
+<G1> - @ 
+<G1> - : 
+<G1> - : <T> 
+<G1> - : <T> ; <G> 
+<G> - <I> : <T> ; <G> 
+<G> - a 
+<G> - b 
+<I> - b 
+<I> - a 

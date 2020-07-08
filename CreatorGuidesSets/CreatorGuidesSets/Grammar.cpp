@@ -187,8 +187,6 @@ void Grammar::Factorize()
 	int i;
 	auto j = 0;
 	
-	//если savedCommandPArt != 0, то сравнение с ним
-
 	while (j < m_grammar.size() - 1)
 	{
 		Expression commonPart = {};
@@ -208,7 +206,18 @@ void Grammar::Factorize()
 				commonPart = savedCommonPart;
 			i++;
 		}
-
+		
+		if (commonPart.GetSize() == 0)		
+		{
+			addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
+			addedElem.AddSymbol("-");
+			for (auto k = 1; k < m_grammar[j].GetSize(); k++)
+			{
+				addedElem.AddSymbol(m_grammar[j].GetVector()[k]);
+			}
+			m_factorizeGrammar.push_back(addedElem);
+		}
+		
 		if (commonPart.GetSize() > 0)
 		{
 			bool equal = false;
