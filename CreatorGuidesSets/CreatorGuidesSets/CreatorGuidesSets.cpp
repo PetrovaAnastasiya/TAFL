@@ -15,10 +15,12 @@ int main()
 		partGrammar.DeleteDuplicateRepeat();
 
 		partGrammar.Factorize();
-		partGrammar.PrintGrammar("Split" + to_string(i) + ".txt");
+		
+		//partGrammar.PrintGrammar("Split" + to_string(i) + ".txt");
 		//partGrammar.PrintGrammarF("F" + to_string(i) + ".txt");
 
 		grammar.AddParts(partGrammar);
+	
 		//currentGrammar.getElem(i).PrintGrammar("Split" + to_string(i) + ".txt");
 	}
 

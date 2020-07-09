@@ -276,26 +276,20 @@ void Grammar::Factorize()
 		}
 		j++;
 	}
+	if (savedCommonPart.GetSize() == 0)
+		m_factorizeGrammar.push_back(m_grammar[j]);
 	if (m_factorizeGrammar.size() != 0)
 		m_grammar = m_factorizeGrammar;
 }
 
 //void Grammar::FactorizeRepeat() 
 //{
-//
-//	std::cout << m_grammar.size() << " ";
 //	Factorize();
-//	std::cout << m_factorizeGrammar.size();
 //
-//	if  (m_grammar.size() != m_factorizeGrammar.size())
+//	while (m_grammar.size() != m_factorizeGrammar.size())
 //	{
 //		m_grammar =  m_factorizeGrammar;
 //		Factorize();
-//		std::cout << m_grammar.size() << " ";
-//		std::cout << m_factorizeGrammar.size();
-//		std::cout << endl;
-//		PrintGrammar("a.txt");
-//		PrintGrammarF("b.txt");
 //	}
 //}
 

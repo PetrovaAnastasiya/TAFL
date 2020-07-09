@@ -1,2 +1,1 @@
-<T> int 
-<T> record <G> end 
+<T> <F> <U> 
