@@ -14,7 +14,7 @@ int main()
 		partGrammar.DeleteDuplicate();
 		partGrammar.DeleteDuplicateRepeat();
 
-			partGrammar.Factorize();
+		partGrammar.Factorize();
 		partGrammar.PrintGrammar("Split" + to_string(i) + ".txt");
 		//partGrammar.PrintGrammarF("F" + to_string(i) + ".txt");
 

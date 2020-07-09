@@ -165,11 +165,7 @@ bool Grammar::Equal(Expression a, Expression b)
 Expression Grammar::FindTail(Expression commonPart, Expression b)
 {
 	Expression tail = {};
-	//if (commonPart.GetSize() == b.GetSize())
-	//{
-	//	tail.AddSymbol("@");
-	//	return tail;
-	//}
+
 	for (size_t i = commonPart.GetSize() + 1; i < b.GetSize(); i++)
 	{
 		tail.AddSymbol(b.GetVector()[i]);
@@ -180,7 +176,7 @@ Expression Grammar::FindTail(Expression commonPart, Expression b)
 	return tail;
 }
 
-void Grammar::Factorize() 
+void Grammar::Factorize()	
 {
 	Expression savedCommonPart = {};
 	Expression factorExpression = {};
@@ -196,27 +192,19 @@ void Grammar::Factorize()
 		factorExpression = m_grammar[j];
 		Expression tmp = m_grammar[j + 1];	
 		i = 1;
+
 		while ((i < factorExpression.GetSize()) && (factorExpression.GetVector()[i] == tmp.GetVector()[i]))
 		{
-			//std::cout << factorExpression.GetVector()[i] + "||";
-			//std::cout << tmp.GetVector()[i] << endl;
+			/*std::cout << factorExpression.GetVector()[i] + "||";
+			std::cout << tmp.GetVector()[i] << endl;*/
 			if (savedCommonPart.GetSize() == 0)
 				commonPart.AddSymbol(factorExpression.GetVector()[i]);
 			else
+			{
 				commonPart = savedCommonPart;
+			}
 			i++;
 		}
-		
-		//if (commonPart.GetSize() == 0)		
-		//{
-		//	addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
-		//	addedElem.AddSymbol("-");
-		//	for (auto k = 1; k < m_grammar[j].GetSize(); k++)
-		//	{
-		//		addedElem.AddSymbol(m_grammar[j].GetVector()[k]);
-		//	}
-		//	m_factorizeGrammar.push_back(addedElem);
-		//}
 		
 		if (commonPart.GetSize() > 0)
 		{
@@ -235,8 +223,10 @@ void Grammar::Factorize()
 					addedElem.AddSymbol(tail.GetVector()[k]);
 				}
 				m_factorizeGrammar.push_back(addedElem);
+				//savedCommonPart = commonPart;
+
 			}
-			else 
+			else
 			{
 				m_counter++;
 				addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
@@ -274,9 +264,15 @@ void Grammar::Factorize()
 					addedElem.AddSymbol(tail.GetVector()[k]);
 				}
 				m_factorizeGrammar.push_back(addedElem);
-				
+
 				savedCommonPart = commonPart;
 			}
+		}
+		else
+		{
+			if (savedCommonPart.GetSize() == 0)
+				m_factorizeGrammar.push_back(m_grammar[j]);
+			savedCommonPart = {};
 		}
 		j++;
 	}
