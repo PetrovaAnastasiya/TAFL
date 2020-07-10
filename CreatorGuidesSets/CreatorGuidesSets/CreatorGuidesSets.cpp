@@ -7,6 +7,7 @@ int main()
 	Grammar gr;
 	int size = 0;
 	int step = 0;
+
 	gr = ge.AlgorythmFactorize(gr, step);
 	do 
 	{
@@ -23,6 +24,7 @@ int main()
 		outExp.Insert();
 		gr.setExpression(i, outExp);
 	}
-
 	gr.PrintGrammar("output.txt");
+
+	//gr.PrintGrammarWithSeparator(gr);
 }

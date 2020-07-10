@@ -42,6 +42,7 @@ int GrammarEnum::getSize()
 Grammar GrammarEnum::AlgorythmFactorize(Grammar gr, int step)
 {
 	Grammar grammar("input.txt");
+
 	if (gr.getSize() != 0)
 	{
 		grammar = gr;
@@ -55,6 +56,7 @@ Grammar GrammarEnum::AlgorythmFactorize(Grammar gr, int step)
 		partGrammar.Sort();
 		partGrammar.DeleteDuplicate();
 		partGrammar.DeleteDuplicateRepeat();
+
 
 		partGrammar.Factorize(step);
 

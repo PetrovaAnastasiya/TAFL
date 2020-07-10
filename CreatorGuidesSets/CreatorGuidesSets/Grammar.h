@@ -25,6 +25,7 @@ public:
 	Grammar(int counter);
 
 	void PrintGrammar(string fileName);
+	void PrintGrammarWithSeparator(Grammar gr);
 	void PrintGrammarF(string fileName);
 	void AddExpression(Expression expression);
 	void AddFactorizeExpression(Expression expression);
@@ -40,6 +41,7 @@ public:
 	void DeleteDuplicate();
 	void DeleteDuplicateRepeat();
 	void AddParts(Grammar smallGrammar);
+	void deleteLeftRec();
 	//int getCounter();
 	//void setCounter(int i);
 }; 

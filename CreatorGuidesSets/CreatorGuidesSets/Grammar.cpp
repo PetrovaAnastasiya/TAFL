@@ -43,9 +43,11 @@ void Grammar::PrintGrammar(string fileName)
 	}
 	if (out.is_open())
 	{
+
 		for (size_t i = 0; i < m_grammar.size(); i++)
 		{ 
 			m_grammar[i].PrintExpression(out);
+
 		}
 		out.close();
 	}
@@ -352,3 +354,42 @@ void Grammar::AddParts(Grammar smallGrammar)
 //{
 //	m_counter = i;
 //}
+
+void Grammar::deleteLeftRec() 
+{
+
+}
+
+void Grammar::PrintGrammarWithSeparator(Grammar gr)
+{
+	Expression selectExp;
+	Grammar separatorGr;
+	string firstElem = "";
+	for (size_t i = 0; i < gr.getSize(); i++)
+	{
+		firstElem = gr.getExpression(i).GetVector()[0];
+		selectExp.AddSymbol(firstElem);
+		selectExp.AddSymbol(gr.getExpression(i).GetVector()[1]);
+		for (size_t j = i + 1; j < gr.getSize(); j++)
+		{
+			if (firstElem == gr.getExpression(j).GetVector()[0])
+			{
+				for (size_t k = 2; k < gr.getExpression(i).GetVector().size(); k++)
+				{
+					selectExp.AddSymbol(gr.getExpression(i).GetVector()[k]);
+				}
+				selectExp.AddSymbol("|");
+				for (size_t k = 2; k < gr.getExpression(j).GetVector().size(); k++)
+				{
+					selectExp.AddSymbol(gr.getExpression(j).GetVector()[k]);
+				}
+
+			}
+			else
+				selectExp = gr.getExpression(i).GetVector();
+		}
+		separatorGr.AddExpression(selectExp);
+		selectExp = {};
+	}
+	separatorGr.PrintGrammar("output1.txt");
+}
