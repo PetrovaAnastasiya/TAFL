@@ -36,6 +36,7 @@ public:
 	void Factorize(int step);
 	int getSize();
 	Expression getExpression(int index);
+	void setExpression(int index, Expression added);
 	void DeleteDuplicate();
 	void DeleteDuplicateRepeat();
 	void AddParts(Grammar smallGrammar);

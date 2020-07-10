@@ -26,4 +26,5 @@ public:
 	int GetSize();
 	vector<string> GetVector();
 	void AddSymbol(string symbol);
+	void Insert();
 };

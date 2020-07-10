@@ -41,3 +41,8 @@ void Expression::AddSymbol(string symbol)
 {
 	m_symbol.push_back(symbol);
 }
+
+void Expression::Insert()
+{
+	m_symbol.insert(m_symbol.begin() + 1, "->");
+}

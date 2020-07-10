@@ -14,5 +14,15 @@ int main()
 		size = gr.getSize();
 		gr = ge.AlgorythmFactorize(gr, step);
 	} while (size != gr.getSize());
+	
+
+	Expression outExp;
+	for (size_t i = 0; i < gr.getSize(); i++)
+	{
+		outExp = gr.getExpression(i);
+		outExp.Insert();
+		gr.setExpression(i, outExp);
+	}
+
 	gr.PrintGrammar("output.txt");
 }

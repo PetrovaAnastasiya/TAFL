@@ -44,7 +44,7 @@ void Grammar::PrintGrammar(string fileName)
 	if (out.is_open())
 	{
 		for (size_t i = 0; i < m_grammar.size(); i++)
-		{
+		{ 
 			m_grammar[i].PrintExpression(out);
 		}
 		out.close();
@@ -296,6 +296,11 @@ int Grammar::getSize()
 Expression Grammar::getExpression(int index)
 {
 	return m_grammar[index];
+}
+
+void Grammar::setExpression(int index, Expression added)
+{
+	m_grammar[index] = added;
 }
 
 void Grammar::DeleteDuplicate()
