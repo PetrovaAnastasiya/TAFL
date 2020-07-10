@@ -40,6 +40,6 @@ public:
 	void DeleteDuplicate();
 	void DeleteDuplicateRepeat();
 	void AddParts(Grammar smallGrammar);
-	int getCounter();
-	void setCounter(int i);
+	//int getCounter();
+	//void setCounter(int i);
 }; 

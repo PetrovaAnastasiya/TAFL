@@ -146,8 +146,16 @@ string Grammar::neterminalCount(Expression expression, int i)
 	string str, count;
 	str = expression.GetVector()[0];
 	count = to_string(m_counter + i);
-	str.insert(str.size() - 1 , count);
-	return str;
+
+	string result = "";
+	for (int i = 0; i < str.size(); i++) {
+		if (!isdigit(str[i])) 
+		{
+			result.push_back(str[i]);
+		}
+	}
+	result.insert(result.size() - 1 , count);
+	return result;
 }
 
 bool Grammar::Equal(Expression a, Expression b)
@@ -335,12 +343,12 @@ void Grammar::AddParts(Grammar smallGrammar)
 	}
 }
 
-int Grammar::getCounter()
-{
-	return m_counter;
-}
-
-void Grammar::setCounter(int i)
-{
-	m_counter = i;
-}
+//int Grammar::getCounter()
+//{
+//	return m_counter;
+//}
+//
+//void Grammar::setCounter(int i)
+//{
+//	m_counter = i;
+//}
