@@ -41,7 +41,13 @@ public:
 	void DeleteDuplicate();
 	void DeleteDuplicateRepeat();
 	void AddParts(Grammar smallGrammar);
-	void deleteLeftRec();
+
+	Grammar getAGrammar();
+	Grammar getBGrammar();
+	void modifyAGrammar();
+	void modifyBGrammar();
+	vector<Expression> getM_Grammar();
+	Grammar DeleteLeftRec();
 	//int getCounter();
 	//void setCounter(int i);
 }; 

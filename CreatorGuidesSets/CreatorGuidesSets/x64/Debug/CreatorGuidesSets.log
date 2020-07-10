@@ -1,4 +1,17 @@
-﻿  CreatorGuidesSets.cpp
-C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\CreatorGuidesSets.cpp(22,30): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\CreatorGuidesSets.cpp(24,29): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+﻿  Grammar.cpp
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(303,25): warning C4267: return: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(332,29): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(344,51): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(406,25): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(455,36): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(459,36): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(475,33): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(477,41): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(480,7): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(482,46): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(484,44): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(487,46): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(489,44): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(494,35): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\CreatorGuidesSets\Grammar.cpp(112): warning C4715: Grammar::Less: значение возвращается не при всех путях выполнения
   CreatorGuidesSets.vcxproj -> C:\!hactsi\PS-32\TAFL\TAFL\CreatorGuidesSets\x64\Debug\CreatorGuidesSets.exe

@@ -355,9 +355,114 @@ void Grammar::AddParts(Grammar smallGrammar)
 //	m_counter = i;
 //}
 
-void Grammar::deleteLeftRec() 
+Grammar Grammar::getAGrammar() 
 {
+	Grammar grA;
+	for (size_t i = 0; i < m_grammar.size(); i++)
+	{
+		if (m_grammar[i].GetVector()[0] == m_grammar[i].GetVector()[1])
+		{
+			grA.AddExpression(m_grammar[i]);
+		}
+	}
+	return grA;
+}
 
+Grammar Grammar::getBGrammar()
+{
+	Grammar grB;
+	for (size_t i = 0; i < m_grammar.size(); i++)
+	{
+		if (m_grammar[i].GetVector()[0] != m_grammar[i].GetVector()[1])
+		{
+			grB.AddExpression(m_grammar[i]);
+		}
+	}
+	return grB;
+}
+
+void Grammar::modifyAGrammar()
+{
+	string str;
+	str = m_grammar[0].GetVector()[0];
+	str.insert(str.size() - 1, "'");
+
+	Expression firstElem = m_grammar[0];
+	Expression emptySimbol;
+	emptySimbol.AddSymbol(str);
+	emptySimbol.AddSymbol("@");
+
+	Expression added;
+
+	for (size_t i = 0; i < m_grammar.size(); i++)
+	{
+		added.AddSymbol(str);
+		for (size_t j = 2; j < m_grammar[i].GetSize(); j++)
+		{
+			added.AddSymbol(m_grammar[i].GetVector()[j]);
+		}
+		added.AddSymbol(str);
+
+		setExpression(i, added);
+	}
+	m_grammar.push_back(emptySimbol);
+}
+
+void Grammar::modifyBGrammar()
+{
+	string str;
+	str = m_grammar[0].GetVector()[0];
+	str.insert(str.size() - 1, "'");
+
+	for (size_t i = 0; i < m_grammar.size(); i++)
+	{
+		m_grammar[i].AddSymbol(str);
+	}
+}
+
+vector<Expression> Grammar::getM_Grammar()
+{
+	return m_grammar;
+}
+
+Grammar Grammar::DeleteLeftRec()
+{
+	Grammar a;
+	Grammar b;
+	Grammar c;
+	a = getAGrammar();
+	b = getBGrammar();
+	a.modifyAGrammar();
+	b.modifyBGrammar();
+
+	//vector<Expression> deleteRec = {};
+
+	//for (size_t i = 0; i < a.getSize(); i++)
+	//{
+	//	deleteRec.push_back(a.getExpression(i));
+	//}
+	//for (size_t i = 0; i < b.getSize(); i++)
+	//{
+	//	deleteRec.push_back(b.getExpression(i));
+	//}
+
+	//c.AddParts(a);
+	//c.AddParts(b);
+	//m_grammar = c.getM_Grammar();
+
+	for (size_t i = 0; i < a.getSize(); i++)
+	{
+		c.AddExpression(a.getExpression(i));
+	}
+	for (size_t i = 0; i < b.getSize(); i++)
+	{
+		c.AddExpression(b.getExpression(i));
+	}
+
+	a.PrintGrammar("a.txt");
+	b.PrintGrammar("b.txt");
+
+	return c;
 }
 
 void Grammar::PrintGrammarWithSeparator(Grammar gr)
