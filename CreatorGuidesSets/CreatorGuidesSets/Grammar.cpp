@@ -141,11 +141,11 @@ void Grammar::Sort()
 	m_grammar = sorted;
 }
 
-string Grammar::neterminalCount(Expression expression)
+string Grammar::neterminalCount(Expression expression, int i)
 {
 	string str, count;
 	str = expression.GetVector()[0];
-	count = to_string(m_counter);
+	count = to_string(m_counter + i);
 	str.insert(str.size() - 1 , count);
 	return str;
 }
@@ -182,13 +182,12 @@ Expression Grammar::FindTail(Expression commonPart, Expression b)
 	return tail;
 }
 
-void Grammar::Factorize(int counter)
+void Grammar::Factorize(int step)
 {
 	Expression savedCommonPart = {};
 	Expression factorExpression = {};
 	int i;
 	auto j = 0;
-	m_counter = counter;
 	
 	while (j < m_grammar.size() - 1)
 	{
@@ -220,7 +219,7 @@ void Grammar::Factorize(int counter)
 			equal = Equal(commonPart, savedCommonPart);
 			if (equal)
 			{
-				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
+				addedElem.AddSymbol(neterminalCount(m_grammar[j], step));
 				//addedElem.AddSymbol("-");
 
 				tail = FindTail(commonPart, tmp);
@@ -244,12 +243,12 @@ void Grammar::Factorize(int counter)
 					addedElem.AddSymbol(commonPart.GetVector()[k]);
 				}
 
-				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
+				addedElem.AddSymbol(neterminalCount(m_grammar[j], step));
 				m_factorizeGrammar.push_back(addedElem);
 				addedElem = {};
 
 				tail = {};
-				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
+				addedElem.AddSymbol(neterminalCount(m_grammar[j], step));
 				//addedElem.AddSymbol("-");
 
 				tail = FindTail(commonPart, factorExpression);
@@ -263,7 +262,7 @@ void Grammar::Factorize(int counter)
 				//addedElem.AddSymbol("|");
 
 				tail = {};
-				addedElem.AddSymbol(neterminalCount(m_grammar[j]));
+				addedElem.AddSymbol(neterminalCount(m_grammar[j], step));
 				//addedElem.AddSymbol("-");
 				tail = FindTail(commonPart, tmp);
 				for (auto k = 0; k < tail.GetSize(); k++)
@@ -288,17 +287,6 @@ void Grammar::Factorize(int counter)
 	if (m_factorizeGrammar.size() != 0)
 		m_grammar = m_factorizeGrammar;
 }
-
-//void Grammar::FactorizeRepeat() 
-//{
-//	Factorize();
-//
-//	while (m_grammar.size() != m_factorizeGrammar.size())
-//	{
-//		m_grammar =  m_factorizeGrammar;
-//		Factorize();
-//	}
-//}
 
 int Grammar::getSize()
 {

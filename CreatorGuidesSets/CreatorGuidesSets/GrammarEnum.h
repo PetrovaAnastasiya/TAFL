@@ -15,5 +15,5 @@ public:
 	GrammarEnum(Grammar grammar);
 	Grammar getElem(int index);
 	int getSize();
-	Grammar AlgorythmFactorize(Grammar gr);
+	Grammar AlgorythmFactorize(Grammar gr, int step);
 };

@@ -6,11 +6,13 @@ int main()
 	GrammarEnum ge;
 	Grammar gr;
 	int size = 0;
-	gr = ge.AlgorythmFactorize(gr);
+	int step = 0;
+	gr = ge.AlgorythmFactorize(gr, step);
 	do 
 	{
+		step++;
 		size = gr.getSize();
-		gr = ge.AlgorythmFactorize(gr);
+		gr = ge.AlgorythmFactorize(gr, step);
 	} while (size != gr.getSize());
 	gr.PrintGrammar("output.txt");
 }

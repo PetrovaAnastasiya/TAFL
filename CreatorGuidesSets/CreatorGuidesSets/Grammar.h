@@ -30,11 +30,10 @@ public:
 	void AddFactorizeExpression(Expression expression);
 	Expression Less(Expression a, Expression b, int& minelementIndex, int k);
 	void Sort();
-	string neterminalCount(Expression expression);
+	string neterminalCount(Expression expression, int i);
 	bool Equal(Expression a, Expression b);
 	Expression FindTail(Expression commonPart, Expression b);
-	void Factorize(int counter);
-	//void FactorizeRepeat();
+	void Factorize(int step);
 	int getSize();
 	Expression getExpression(int index);
 	void DeleteDuplicate();
