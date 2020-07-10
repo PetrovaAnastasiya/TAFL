@@ -22,6 +22,8 @@ public:
 	{
 	};
 	Grammar(string fileName);
+	Grammar(int counter);
+
 	void PrintGrammar(string fileName);
 	void PrintGrammarF(string fileName);
 	void AddExpression(Expression expression);
@@ -31,11 +33,13 @@ public:
 	string neterminalCount(Expression expression);
 	bool Equal(Expression a, Expression b);
 	Expression FindTail(Expression commonPart, Expression b);
-	void Factorize();
+	void Factorize(int counter);
 	//void FactorizeRepeat();
 	int getSize();
 	Expression getExpression(int index);
 	void DeleteDuplicate();
 	void DeleteDuplicateRepeat();
 	void AddParts(Grammar smallGrammar);
+	int getCounter();
+	void setCounter(int i);
 }; 

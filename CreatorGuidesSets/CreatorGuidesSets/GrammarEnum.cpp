@@ -39,3 +39,28 @@ int GrammarEnum::getSize()
 	return m_grammarEnum.size();
 }
 
+Grammar GrammarEnum::AlgorythmFactorize(Grammar gr)
+{
+	Grammar grammar("input.txt");
+	if (gr.getSize() != 0)
+	{
+		grammar = gr;
+	}
+	GrammarEnum currentGrammar(grammar);
+	grammar = {};
+	Grammar partGrammar;
+	for (size_t i = 0; i < currentGrammar.getSize(); i++)
+	{
+		partGrammar = currentGrammar.getElem(i);
+		partGrammar.Sort();
+		partGrammar.DeleteDuplicate();
+		partGrammar.DeleteDuplicateRepeat();
+
+		partGrammar.Factorize(gr.getCounter() + 1);
+
+		grammar.AddParts(partGrammar);
+	}
+	return grammar;
+	//grammar.PrintGrammar("out.txt");
+}
+

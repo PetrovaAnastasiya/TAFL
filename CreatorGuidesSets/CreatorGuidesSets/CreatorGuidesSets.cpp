@@ -1,30 +1,16 @@
 ﻿#include "GrammarEnum.h"
+#include "FileWork.h"
 
 int main()
 {
-	
-	Grammar grammar("input.txt");
-	GrammarEnum currentGrammar(grammar);
-	grammar = {};
-	Grammar partGrammar;
-	for (size_t i = 0; i < currentGrammar.getSize(); i++)
+	GrammarEnum ge;
+	Grammar gr;
+	int size = 0;
+	gr = ge.AlgorythmFactorize(gr);
+	do 
 	{
-		partGrammar = currentGrammar.getElem(i);
-		partGrammar.Sort();
-		partGrammar.DeleteDuplicate();
-		partGrammar.DeleteDuplicateRepeat();
-
-		partGrammar.Factorize();
-		
-		//partGrammar.PrintGrammar("Split" + to_string(i) + ".txt");
-		//partGrammar.PrintGrammarF("F" + to_string(i) + ".txt");
-
-		grammar.AddParts(partGrammar);
-	
-		//currentGrammar.getElem(i).PrintGrammar("Split" + to_string(i) + ".txt");
-	}
-
-	grammar.PrintGrammar("output.txt");
-
-	return 0;
+		size = gr.getSize();
+		gr = ge.AlgorythmFactorize(gr);
+	} while (size != gr.getSize());
+	gr.PrintGrammar("output.txt");
 }

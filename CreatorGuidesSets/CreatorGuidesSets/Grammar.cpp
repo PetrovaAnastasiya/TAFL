@@ -23,7 +23,12 @@ Grammar::Grammar(string fileName)
 	}
 	m_factorizeGrammar = {};
 
-	m_counter = 0;
+	//m_counter = 0;
+}
+
+Grammar::Grammar(int counter)
+{
+	m_counter = counter;
 }
 
 void Grammar::PrintGrammar(string fileName)
@@ -42,6 +47,7 @@ void Grammar::PrintGrammar(string fileName)
 		{
 			m_grammar[i].PrintExpression(out);
 		}
+		out.close();
 	}
 }
 
@@ -176,12 +182,13 @@ Expression Grammar::FindTail(Expression commonPart, Expression b)
 	return tail;
 }
 
-void Grammar::Factorize()	
+void Grammar::Factorize(int counter)
 {
 	Expression savedCommonPart = {};
 	Expression factorExpression = {};
 	int i;
 	auto j = 0;
+	m_counter = counter;
 	
 	while (j < m_grammar.size() - 1)
 	{
@@ -335,3 +342,12 @@ void Grammar::AddParts(Grammar smallGrammar)
 	}
 }
 
+int Grammar::getCounter()
+{
+	return m_counter;
+}
+
+void Grammar::setCounter(int i)
+{
+	m_counter = i;
+}
