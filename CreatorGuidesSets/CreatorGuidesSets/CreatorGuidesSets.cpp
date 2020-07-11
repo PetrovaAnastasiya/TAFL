@@ -9,12 +9,12 @@ int main()
 	int step = 0;
 
 	gr = ge.AlgorythmFactorize(gr, step);
-	/*do 
-	{*/
+	do 
+	{
 		step++;
 		size = gr.getSize();
 		gr = ge.AlgorythmFactorize(gr, step);
-	//} while (size != gr.getSize());
+	} while (size != gr.getSize());
 	
 
 	Expression outExp;

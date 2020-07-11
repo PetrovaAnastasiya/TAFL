@@ -22,7 +22,7 @@ public:
 	Expression(std::istream& in);
 
 	void PrintExpression(ofstream& out);
-	void PrintExpression(ostream& out);
+	void PrintExpression();
 	int GetSize();
 	vector<string> GetVector();
 	void AddSymbol(string symbol);

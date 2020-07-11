@@ -21,6 +21,12 @@ void Expression::PrintExpression(ofstream& out)
 	out << endl;
 }
 
+void Expression::PrintExpression()
+{
+	copy(m_symbol.begin(), m_symbol.end(), ostream_iterator<string>(cout, " "));
+	cout << endl;
+}
+
 int Expression::GetSize()
 {
 	return m_symbol.size();

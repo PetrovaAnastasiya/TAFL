@@ -1,4 +1,5 @@
 #include "Grammar.h"
+#include "GrammarEnum.h"
 
 Grammar::Grammar(string fileName)
 {
@@ -47,7 +48,7 @@ void Grammar::PrintGrammar(string fileName)
 		for (size_t i = 0; i < m_grammar.size(); i++)
 		{ 
 			m_grammar[i].PrintExpression(out);
-
+			//m_grammar[i].PrintExpression();
 		}
 		out.close();
 	}
@@ -341,6 +342,7 @@ void Grammar::AddParts(Grammar smallGrammar)
 {
 	for (size_t i = 0; i < smallGrammar.getSize(); i++)
 	{
+		if (smallGrammar.getExpression(i).GetSize() != 0)
 		m_grammar.push_back(smallGrammar.getExpression(i));
 	}
 }
@@ -357,7 +359,7 @@ void Grammar::AddParts(Grammar smallGrammar)
 
 Grammar Grammar::getAGrammar() 
 {
-	Grammar grA;
+	Grammar grA = {};
 	for (size_t i = 0; i < m_grammar.size(); i++)
 	{
 		if (m_grammar[i].GetVector()[0] == m_grammar[i].GetVector()[1])
@@ -404,6 +406,7 @@ void Grammar::modifyAGrammar()
 		added.AddSymbol(str);
 
 		setExpression(i, added);
+		added = {};
 	}
 	m_grammar.push_back(emptySimbol);
 }
@@ -461,7 +464,8 @@ Grammar Grammar::DeleteLeftRec()
 
 	a.PrintGrammar("a.txt");
 	b.PrintGrammar("b.txt");
-
+	c.PrintGrammar("c.txt");
+	
 	return c;
 }
 
@@ -470,31 +474,34 @@ void Grammar::PrintGrammarWithSeparator(Grammar gr)
 	Expression selectExp;
 	Grammar separatorGr;
 	string firstElem = "";
-	for (size_t i = 0; i < gr.getSize(); i++)
+
+	GrammarEnum currentGrammar(gr);
+
+	
+	for (size_t i = 0; i < currentGrammar.getSize(); i++)
 	{
-		firstElem = gr.getExpression(i).GetVector()[0];
-		selectExp.AddSymbol(firstElem);
-		selectExp.AddSymbol(gr.getExpression(i).GetVector()[1]);
-		for (size_t j = i + 1; j < gr.getSize(); j++)
+		separatorGr = currentGrammar.getElem(i);
+		cout << separatorGr.getSize();
+		//cout << (separatorGr.getExpression(i).GetVector()[0]);
+		//cout << (separatorGr.getExpression(i).GetVector()[1]);
+		separatorGr = currentGrammar.getElem(i);
+
+		for (size_t k = 0; k < currentGrammar.getElem(i).getSize(); k++)
 		{
-			if (firstElem == gr.getExpression(j).GetVector()[0])
+
+			for (size_t j = 2; j < separatorGr.getSize(); j++)
 			{
-				for (size_t k = 2; k < gr.getExpression(i).GetVector().size(); k++)
-				{
-					selectExp.AddSymbol(gr.getExpression(i).GetVector()[k]);
-				}
-				selectExp.AddSymbol("|");
-				for (size_t k = 2; k < gr.getExpression(j).GetVector().size(); k++)
-				{
-					selectExp.AddSymbol(gr.getExpression(j).GetVector()[k]);
-				}
+				cout << separatorGr.getExpression(k).GetVector()[j];
+
 
 			}
+			if (k != currentGrammar.getElem(i).getSize() - 1)
+				cout << "|";
 			else
-				selectExp = gr.getExpression(i).GetVector();
+				cout << endl;
 		}
-		separatorGr.AddExpression(selectExp);
-		selectExp = {};
 	}
+
+
 	separatorGr.PrintGrammar("output1.txt");
 }

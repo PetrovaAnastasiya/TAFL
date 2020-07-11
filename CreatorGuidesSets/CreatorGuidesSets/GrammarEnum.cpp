@@ -51,25 +51,63 @@ Grammar GrammarEnum::AlgorythmFactorize(Grammar gr, int step)
 	GrammarEnum currentGrammar(grammar);
 	grammar = {};
 	Grammar partGrammar;
-	Grammar del;
 	for (size_t i = 0; i < currentGrammar.getSize(); i++)
 	{
+		//cout << "111111111111111111111111" << endl;
+
 		partGrammar = currentGrammar.getElem(i);
 		partGrammar.Sort();
 		partGrammar.DeleteDuplicate();
 		partGrammar.DeleteDuplicateRepeat();
 		
-		del = partGrammar.DeleteLeftRec();
-		//for (size_t i = 0; i < del.size(); i++)
-		//{
-		//	partGrammar.setExpression(i, del[i]);
+		//partGrammar.PrintGrammar("part" + to_string(step) + ".txt");
 
-		//}
-		//partGrammar.Factorize(step);
-		grammar.AddParts(del);
+		Grammar a = partGrammar;
+		Grammar b = partGrammar;
+		
+		a = a.getAGrammar();
+		if (a.getSize() > 0)
+		{
+			b = b.getBGrammar();
+			a.modifyAGrammar();
+			b.modifyBGrammar();
+		}
+		else
+		{
+			a = partGrammar;
+			b = {};
+		}
+
+		//a.PrintGrammar("a" + to_string(step) + ".txt");
+		//b.PrintGrammar("b" + to_string(step) + ".txt");
+
+		//cout << "222222222222222222222222" << endl;
+
+		//partGrammar.getM_Grammar().clear();
+		partGrammar = {};
+
+		a.Factorize(step);
+		for (size_t i = 0; i < a.getSize(); i++)
+		{
+			grammar.AddExpression(a.getExpression(i));
+		}
+		//cout << "333333333333333333333333" << endl;
+
+		if (b.getSize() > 0)
+		{
+			b.Factorize(step);
+			for (size_t i = 0; i < b.getSize(); i++)
+			{
+				grammar.AddExpression(b.getExpression(i));
+			}
+		}
+		//partGrammar.PrintGrammar("part.txt");
+		//grammar.PrintGrammar("grammar" + to_string (step) +".txt");
+
+
+		//grammar.AddParts(partGrammar);
 	}
 	return grammar;
-	//grammar.PrintGrammar("out.txt");
 }
 
 
