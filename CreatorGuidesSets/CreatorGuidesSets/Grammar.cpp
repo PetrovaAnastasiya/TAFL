@@ -481,27 +481,28 @@ void Grammar::PrintGrammarWithSeparator(Grammar gr)
 	for (size_t i = 0; i < currentGrammar.getSize(); i++)
 	{
 		separatorGr = currentGrammar.getElem(i);
-		cout << separatorGr.getSize();
-		//cout << (separatorGr.getExpression(i).GetVector()[0]);
-		//cout << (separatorGr.getExpression(i).GetVector()[1]);
-		separatorGr = currentGrammar.getElem(i);
+		//cout << separatorGr.getSize();
+		cout << (separatorGr.getExpression(0).GetVector()[0]);
+		cout << " ";
+		cout << (separatorGr.getExpression(0).GetVector()[1]);
+		cout << " ";
 
 		for (size_t k = 0; k < currentGrammar.getElem(i).getSize(); k++)
 		{
-
-			for (size_t j = 2; j < separatorGr.getSize(); j++)
+			selectExp = currentGrammar.getElem(i).getExpression(k);;
+			for (size_t j = 2; j < selectExp.GetSize(); j++)
 			{
-				cout << separatorGr.getExpression(k).GetVector()[j];
-
+				cout << selectExp.GetVector()[j];
+				cout << " ";
 
 			}
 			if (k != currentGrammar.getElem(i).getSize() - 1)
-				cout << "|";
+				cout << "| ";
 			else
 				cout << endl;
 		}
 	}
 
 
-	separatorGr.PrintGrammar("output1.txt");
+	//separatorGr.PrintGrammar("output1.txt");
 }

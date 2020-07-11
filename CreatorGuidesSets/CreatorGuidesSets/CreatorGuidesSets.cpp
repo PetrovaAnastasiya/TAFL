@@ -26,5 +26,5 @@ int main()
 	}
 	gr.PrintGrammar("output.txt");
 
-	//gr.PrintGrammarWithSeparator(gr);
+	gr.PrintGrammarWithSeparator(gr);
 }
