@@ -212,8 +212,6 @@ void Grammar::Factorize(int step)
 
 		while ((i < factorExpression.GetSize()) && (factorExpression.GetVector()[i] == tmp.GetVector()[i]))
 		{
-			/*std::cout << factorExpression.GetVector()[i] + "||";
-			std::cout << tmp.GetVector()[i] << endl;*/
 			if (savedCommonPart.GetSize() == 0)
 				commonPart.AddSymbol(factorExpression.GetVector()[i]);
 			else
@@ -231,23 +229,18 @@ void Grammar::Factorize(int step)
 			if (equal)
 			{
 				addedElem.AddSymbol(neterminalCount(m_grammar[j], step));
-				//addedElem.AddSymbol("-");
 
 				tail = FindTail(commonPart, tmp);
-				//addedElem.AddSymbol("|");
 				for (auto k = 0; k < tail.GetSize(); k++)
 				{
 					addedElem.AddSymbol(tail.GetVector()[k]);
 				}
 				m_factorizeGrammar.push_back(addedElem);
-				//savedCommonPart = commonPart;
-
 			}
 			else
 			{
 				m_counter++;
 				addedElem.AddSymbol(m_grammar[j].GetVector()[0]);
-				//addedElem.AddSymbol("-");
 
 				for (auto k = 0; k < commonPart.GetSize(); k++)
 				{
@@ -260,7 +253,6 @@ void Grammar::Factorize(int step)
 
 				tail = {};
 				addedElem.AddSymbol(neterminalCount(m_grammar[j], step));
-				//addedElem.AddSymbol("-");
 
 				tail = FindTail(commonPart, factorExpression);
 				for (auto k = 0; k < tail.GetSize(); k++)
@@ -270,11 +262,9 @@ void Grammar::Factorize(int step)
 				m_factorizeGrammar.push_back(addedElem);
 				addedElem = {};
 
-				//addedElem.AddSymbol("|");
 
 				tail = {};
 				addedElem.AddSymbol(neterminalCount(m_grammar[j], step));
-				//addedElem.AddSymbol("-");
 				tail = FindTail(commonPart, tmp);
 				for (auto k = 0; k < tail.GetSize(); k++)
 				{
@@ -411,6 +401,32 @@ void Grammar::modifyAGrammar()
 	m_grammar.push_back(emptySimbol);
 }
 
+void Grammar::modifyAGrammarExcept()
+{
+	string str;
+	str = m_grammar[0].GetVector()[0];
+	Expression firstElem = m_grammar[0];
+	
+	Expression added;
+
+	for (size_t i = 0; i < m_grammar.size(); i++)
+	{
+		added.AddSymbol(str);
+		for (size_t j = 2; j < m_grammar[i].GetSize(); j++)
+		{
+			added.AddSymbol(m_grammar[i].GetVector()[j]);
+		}
+		added.AddSymbol(str);
+
+		setExpression(i, added);
+		added = {};
+	}
+	added.AddSymbol(str);
+	added.AddSymbol("@");
+	m_grammar.push_back(added);
+}
+
+
 void Grammar::modifyBGrammar()
 {
 	string str;
@@ -428,46 +444,32 @@ vector<Expression> Grammar::getM_Grammar()
 	return m_grammar;
 }
 
-Grammar Grammar::DeleteLeftRec()
-{
-	Grammar a;
-	Grammar b;
-	Grammar c;
-	a = getAGrammar();
-	b = getBGrammar();
-	a.modifyAGrammar();
-	b.modifyBGrammar();
-
-	//vector<Expression> deleteRec = {};
-
-	//for (size_t i = 0; i < a.getSize(); i++)
-	//{
-	//	deleteRec.push_back(a.getExpression(i));
-	//}
-	//for (size_t i = 0; i < b.getSize(); i++)
-	//{
-	//	deleteRec.push_back(b.getExpression(i));
-	//}
-
-	//c.AddParts(a);
-	//c.AddParts(b);
-	//m_grammar = c.getM_Grammar();
-
-	for (size_t i = 0; i < a.getSize(); i++)
-	{
-		c.AddExpression(a.getExpression(i));
-	}
-	for (size_t i = 0; i < b.getSize(); i++)
-	{
-		c.AddExpression(b.getExpression(i));
-	}
-
-	a.PrintGrammar("a.txt");
-	b.PrintGrammar("b.txt");
-	c.PrintGrammar("c.txt");
-	
-	return c;
-}
+//Grammar Grammar::DeleteLeftRec()
+//{
+//	Grammar a;
+//	Grammar b;
+//	Grammar c;
+//	a = getAGrammar();
+//	b = getBGrammar();
+//	a.modifyAGrammar();
+//	b.modifyBGrammar();
+//
+//
+//	for (size_t i = 0; i < a.getSize(); i++)
+//	{
+//		c.AddExpression(a.getExpression(i));
+//	}
+//	for (size_t i = 0; i < b.getSize(); i++)
+//	{
+//		c.AddExpression(b.getExpression(i));
+//	}
+//
+//	a.PrintGrammar("a.txt");
+//	b.PrintGrammar("b.txt");
+//	c.PrintGrammar("c.txt");
+//	
+//	return c;
+//}
 
 void Grammar::PrintGrammarWithSeparator(Grammar gr)
 {
@@ -481,7 +483,6 @@ void Grammar::PrintGrammarWithSeparator(Grammar gr)
 	for (size_t i = 0; i < currentGrammar.getSize(); i++)
 	{
 		separatorGr = currentGrammar.getElem(i);
-		//cout << separatorGr.getSize();
 		cout << (separatorGr.getExpression(0).GetVector()[0]);
 		cout << " ";
 		cout << (separatorGr.getExpression(0).GetVector()[1]);
@@ -502,7 +503,4 @@ void Grammar::PrintGrammarWithSeparator(Grammar gr)
 				cout << endl;
 		}
 	}
-
-
-	//separatorGr.PrintGrammar("output1.txt");
 }

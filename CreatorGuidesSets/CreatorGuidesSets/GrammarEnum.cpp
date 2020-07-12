@@ -8,14 +8,10 @@ GrammarEnum::GrammarEnum(Grammar grammar)
 	smallGrammar.AddExpression(grammar.getExpression(0));
 	for (size_t i = 1; i < grammar.getSize(); i++)
 	{
-		//std::cout << grammar.getExpression(i).GetVector()[0] << " ";
-		/*std::cout << grammar.getExpression(i).GetVector()[0] << " " ;
-		std::cout << currNeterminal << endl;*/
 
 		if (grammar.getExpression(i).GetVector()[0] == currNeterminal)
 		{
 			smallGrammar.AddExpression(grammar.getExpression(i));
-			//smallGrammar.PrintGrammar(to_string(i) + "if.txt");
 		}
 		else
 		{
@@ -23,7 +19,6 @@ GrammarEnum::GrammarEnum(Grammar grammar)
 			currNeterminal = grammar.getExpression(i).GetVector()[0];
 			smallGrammar = {};
 			smallGrammar.AddExpression(grammar.getExpression(i));
-			//smallGrammar.PrintGrammar(to_string(i) + "else.txt");
 		}
 	}
 	m_grammarEnum.push_back(smallGrammar);
@@ -53,24 +48,28 @@ Grammar GrammarEnum::AlgorythmFactorize(Grammar gr, int step)
 	Grammar partGrammar;
 	for (size_t i = 0; i < currentGrammar.getSize(); i++)
 	{
-		//cout << "111111111111111111111111" << endl;
-
 		partGrammar = currentGrammar.getElem(i);
 		partGrammar.Sort();
 		partGrammar.DeleteDuplicate();
 		partGrammar.DeleteDuplicateRepeat();
 		
-		//partGrammar.PrintGrammar("part" + to_string(step) + ".txt");
-
 		Grammar a = partGrammar;
 		Grammar b = partGrammar;
-		
+		Grammar c;
+
 		a = a.getAGrammar();
+		c = a;
 		if (a.getSize() > 0)
 		{
-			b = b.getBGrammar();
 			a.modifyAGrammar();
-			b.modifyBGrammar();
+			b = b.getBGrammar();
+			if (b.getSize() == 0)
+			{
+				a = c;
+				a.modifyAGrammarExcept();
+			}
+			if (b.getSize() > 0)
+				b.modifyBGrammar();
 		}
 		else
 		{
@@ -78,34 +77,36 @@ Grammar GrammarEnum::AlgorythmFactorize(Grammar gr, int step)
 			b = {};
 		}
 
-		//a.PrintGrammar("a" + to_string(step) + ".txt");
-		//b.PrintGrammar("b" + to_string(step) + ".txt");
-
-		//cout << "222222222222222222222222" << endl;
-
-		//partGrammar.getM_Grammar().clear();
 		partGrammar = {};
+
+		if (b.getSize() > 0)
+		{
+			if ((b.getSize() == 1) && b.getExpression(0).GetVector()[1] == "@")
+			{
+				b = {};
+				a = c;
+				a.modifyAGrammarExcept();
+			}
+			else
+			{
+				b.Factorize(step);
+				for (size_t i = 0; i < b.getSize(); i++)
+				{
+					grammar.AddExpression(b.getExpression(i));
+				}
+			}
+		} 
+		//else
+		//{
+		//	a = c;
+		//	a.modifyAGrammarExcept();
+		//}
 
 		a.Factorize(step);
 		for (size_t i = 0; i < a.getSize(); i++)
 		{
 			grammar.AddExpression(a.getExpression(i));
 		}
-		//cout << "333333333333333333333333" << endl;
-
-		if (b.getSize() > 0)
-		{
-			b.Factorize(step);
-			for (size_t i = 0; i < b.getSize(); i++)
-			{
-				grammar.AddExpression(b.getExpression(i));
-			}
-		}
-		//partGrammar.PrintGrammar("part.txt");
-		//grammar.PrintGrammar("grammar" + to_string (step) +".txt");
-
-
-		//grammar.AddParts(partGrammar);
 	}
 	return grammar;
 }

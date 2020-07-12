@@ -45,7 +45,9 @@ public:
 	Grammar getAGrammar();
 	Grammar getBGrammar();
 	void modifyAGrammar();
+	void modifyAGrammarExcept();
 	void modifyBGrammar();
+
 	vector<Expression> getM_Grammar();
 	Grammar DeleteLeftRec();
 	//int getCounter();
